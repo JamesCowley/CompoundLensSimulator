@@ -1,0 +1,2606 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 8.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[    103525,       2597]
+NotebookOptionsPosition[    101432,       2538]
+NotebookOutlinePosition[    101887,       2555]
+CellTagsIndexPosition[    101844,       2552]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["\<\
+Geometric Optics: Spherical and Chromatic Aberration
+Functions used\
+\>", "Title",
+ CellChangeTimes->{{3.5728166536939697`*^9, 3.572816656555133*^9}, {
+  3.572966120101411*^9, 3.572966121041465*^9}, {3.572966332930584*^9, 
+  3.5729663650474215`*^9}, {3.57297145849975*^9, 3.572971495436863*^9}}],
+
+Cell[TextData[{
+ "James Cowley - ",
+ StyleBox["Mathematica",
+  FontSlant->"Italic"],
+ " Miniproject"
+}], "Subtitle",
+ CellChangeTimes->{{3.5728166588672657`*^9, 3.5728166678877816`*^9}}],
+
+Cell["UCL Department of Physics & Astronomy 2013", "Subsubtitle",
+ CellChangeTimes->{{3.572816670796948*^9, 3.5728166784703865`*^9}}],
+
+Cell["\<\
+This function returns the coordinates of intersection of straight line with a \
+circle, given the line\[CloseCurlyQuote]s starting coordinates (x1,y1), its \
+angle of elevation th, and the radius r of the circle centred at the point \
+(c,0):\
+\>", "Text",
+ CellChangeTimes->{{3.572967558429679*^9, 3.572967573786557*^9}, {
+  3.5729676289027095`*^9, 3.5729676328499355`*^9}, {3.5729682503382535`*^9, 
+  3.5729682508282814`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"incidencelens", "[", 
+   RowBox[{"x1_", ",", "y1_", ",", "th_", ",", "r_", ",", "c_"}], "]"}], ":=",
+   "\[IndentingNewLine]", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"lineq", ",", "circeq", ",", "ints", ",", "xs", ",", "xchosen"}],
+      "}"}], ",", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"lineq", "=", 
+      RowBox[{"y", "==", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"Tan", "[", "th", "]"}], 
+         RowBox[{"(", 
+          RowBox[{"x", "-", "x1"}], ")"}]}], "+", "y1"}]}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"circeq", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{"x", "-", "c"}], ")"}], "^", "2"}], "+", 
+        RowBox[{"y", "^", "2"}]}], "\[Equal]", 
+       RowBox[{"r", "^", "2"}]}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"ints", "=", 
+      RowBox[{"NSolve", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"lineq", ",", "circeq"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"x", ",", "y"}], "}"}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"xs", "=", 
+      RowBox[{"x", "/.", "ints"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"xchosen", ":=", 
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"Abs", "[", 
+          RowBox[{
+           RowBox[{"xs", "[", 
+            RowBox[{"[", "1", "]"}], "]"}], "-", "0"}], "]"}], ">", 
+         RowBox[{"Abs", "[", 
+          RowBox[{
+           RowBox[{"xs", "[", 
+            RowBox[{"[", 
+             RowBox[{"-", "1"}], "]"}], "]"}], "-", "0"}], "]"}]}], ",", 
+        RowBox[{"xs", "[", 
+         RowBox[{"[", 
+          RowBox[{"-", "1"}], "]"}], "]"}], ",", 
+        RowBox[{"xs", "[", 
+         RowBox[{"[", "1", "]"}], "]"}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Which", "[", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Abs", "[", "th", "]"}], "\[GreaterSlantEqual]", 
+        RowBox[{"Pi", "/", "2"}]}], ",", 
+       "\"\<The angle must be less than Pi/2.\>\"", ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"Flatten", "[", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"x", ",", "y"}], "}"}], "/.", "ints"}], "]"}], "[", 
+         RowBox[{"[", "1", "]"}], "]"}], "\[NotEqual]", " ", 
+        RowBox[{"Conjugate", "[", 
+         RowBox[{
+          RowBox[{"Flatten", "[", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{"x", ",", "y"}], "}"}], "/.", "ints"}], "]"}], "[", 
+          RowBox[{"[", "1", "]"}], "]"}], "]"}]}], ",", 
+       "\"\<The beam doesn't intersect the lens.\>\"", ",", 
+       "\[IndentingNewLine]", "True", ",", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"x", ",", "y"}], "}"}], "/.", 
+        RowBox[{
+         RowBox[{"Select", "[", 
+          RowBox[{"ints", ",", 
+           RowBox[{
+            RowBox[{"xchosen", "\[Equal]", 
+             RowBox[{"(", 
+              RowBox[{"x", "/.", 
+               RowBox[{"#", "[", 
+                RowBox[{"[", "1", "]"}], "]"}]}], ")"}]}], "&"}]}], "]"}], 
+         "[", 
+         RowBox[{"[", "1", "]"}], "]"}]}]}], "]"}]}]}], "]"}]}]], "Input",
+ CellChangeTimes->{
+  3.572966128449888*^9, {3.5729661669820924`*^9, 3.572966167592127*^9}, {
+   3.5729663779581594`*^9, 3.572966556239357*^9}, {3.5729675568715897`*^9, 
+   3.572967592271614*^9}}],
+
+Cell["Example:", "Text",
+ CellChangeTimes->{{3.572967558429679*^9, 3.572967573786557*^9}, {
+  3.572967701218846*^9, 3.572967711241419*^9}, {3.5729680063202963`*^9, 
+  3.572968074843216*^9}, {3.5729710058458595`*^9, 3.5729710080619864`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"incidencelens", "[", 
+  RowBox[{
+   RowBox[{"-", "30"}], ",", "10", ",", 
+   RowBox[{"Pi", "/", "100"}], ",", "100", ",", "130"}], "]"}]], "Input",
+ CellChangeTimes->{{3.572970929422488*^9, 3.5729709971883645`*^9}, {
+  3.5729710710705905`*^9, 3.572971108145711*^9}}],
+
+Cell["\<\
+
+
+
+
+
+This function returns the angle of elevation of refracted beam of light given \
+the beam\[CloseCurlyQuote]s starting coordinates (x1,y1), its original angle \
+of elevation th,  the radius r of the circle centred at the point (c,0) which \
+defines the boundary between media, and the refractive indices n1 and n2 of \
+the first and second media:\
+\>", "Text",
+ CellChangeTimes->{{3.572967558429679*^9, 3.572967573786557*^9}, {
+  3.57296762087125*^9, 3.572967635102064*^9}, {3.572967684259876*^9, 
+  3.5729676843998837`*^9}, {3.5729714209566026`*^9, 3.5729714212966223`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"refth", "[", 
+   RowBox[{
+   "x1_", ",", "y1_", ",", "th_", ",", "r_", ",", "c_", ",", "n1_", ",", 
+    "n2_"}], "]"}], ":=", "\[IndentingNewLine]", 
+  RowBox[{"If", "[", 
+   RowBox[{
+    RowBox[{"StringQ", "[", 
+     RowBox[{"incidencelens", "[", 
+      RowBox[{"x1", ",", "y1", ",", "th", ",", "r", ",", "c"}], "]"}], "]"}], 
+    ",", 
+    RowBox[{"incidencelens", "[", 
+     RowBox[{"x1", ",", "y1", ",", "th", ",", "r", ",", "c"}], "]"}], ",", 
+    "\[IndentingNewLine]", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+       "xint", ",", "yint", ",", "gint", ",", "phi1", ",", "phi2", ",", 
+        "angleofincidence", ",", "angleofnormal1", ",", "angleofnormal2", ",",
+         "criticalangletest", ",", "angleofrefraction", ",", "newtheta"}], 
+       "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"xint", ",", "yint"}], "}"}], "=", 
+        RowBox[{"incidencelens", "[", 
+         RowBox[{"x1", ",", "y1", ",", "th", ",", "r", ",", "c"}], "]"}]}], 
+       ";", "\[IndentingNewLine]", 
+       RowBox[{"gint", "=", 
+        RowBox[{"Which", "[", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"yint", "<", "0"}], ",", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"D", "[", 
+             RowBox[{
+              RowBox[{"y", "/.", 
+               RowBox[{"Solve", "[", 
+                RowBox[{
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{"x", "-", "c"}], ")"}], "^", "2"}], "+", 
+                   RowBox[{"y", "^", "2"}]}], "\[Equal]", 
+                  RowBox[{"r", "^", "2"}]}], ",", "y"}], "]"}]}], ",", "x"}], 
+             "]"}], "[", 
+            RowBox[{"[", "1", "]"}], "]"}], "/.", 
+           RowBox[{"x", "\[Rule]", "xint"}]}], ",", "\[IndentingNewLine]", 
+          RowBox[{"yint", ">", "0"}], ",", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"D", "[", 
+             RowBox[{
+              RowBox[{"y", "/.", 
+               RowBox[{"Solve", "[", 
+                RowBox[{
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{"x", "-", "c"}], ")"}], "^", "2"}], "+", 
+                   RowBox[{"y", "^", "2"}]}], "\[Equal]", 
+                  RowBox[{"r", "^", "2"}]}], ",", "y"}], "]"}]}], ",", "x"}], 
+             "]"}], "[", 
+            RowBox[{"[", "2", "]"}], "]"}], "/.", 
+           RowBox[{"x", "\[Rule]", "xint"}]}], ",", "\[IndentingNewLine]", 
+          "True", ",", "Infinity"}], "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"phi1", "=", 
+        RowBox[{"ArcTan", "[", "gint", "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"phi2", "=", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"phi1", "<", "0"}], ",", 
+          RowBox[{"Pi", "+", "phi1"}], ",", "phi1"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"angleofnormal1", "=", 
+        RowBox[{"phi2", "+", 
+         RowBox[{"Pi", "/", "2"}]}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"angleofincidence", "=", 
+        RowBox[{"th", "+", "Pi", "-", "angleofnormal1"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"angleofnormal2", "=", 
+        RowBox[{"angleofnormal1", "-", "Pi"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"criticalangletest", "=", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"Abs", "[", 
+            RowBox[{"n1", " ", 
+             RowBox[{
+              RowBox[{"Sin", "[", "angleofincidence", "]"}], "/", "n2"}]}], 
+            "]"}], ">", "1"}], ",", 
+          RowBox[{"Sign", "[", 
+           RowBox[{"n1", " ", 
+            RowBox[{
+             RowBox[{"Sin", "[", "angleofincidence", "]"}], "/", "n2"}]}], 
+           "]"}], ",", 
+          RowBox[{"n1", " ", 
+           RowBox[{
+            RowBox[{"Sin", "[", "angleofincidence", "]"}], "/", "n2"}]}]}], 
+         "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"angleofrefraction", "=", 
+        RowBox[{"ArcSin", "[", "criticalangletest", "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"newtheta", "=", 
+        RowBox[{"angleofnormal2", "+", "angleofrefraction"}]}]}]}], 
+     "\[IndentingNewLine]", "]"}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.572966170076269*^9, 3.5729661753935738`*^9}, {
+  3.5729665608506203`*^9, 3.572966638725075*^9}, {3.572966881058935*^9, 
+  3.572966889569422*^9}, {3.5729676179130807`*^9, 3.5729676392543015`*^9}}],
+
+Cell["Example:", "Text",
+ CellChangeTimes->{{3.572967558429679*^9, 3.572967573786557*^9}, {
+  3.572967701218846*^9, 3.572967711241419*^9}, {3.5729680063202963`*^9, 
+  3.572968074843216*^9}, {3.5729710058458595`*^9, 3.5729710080619864`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"refth", "[", 
+  RowBox[{
+   RowBox[{"-", "30"}], ",", "10", ",", 
+   RowBox[{"Pi", "/", "100"}], ",", "100", ",", "130", ",", "1", ",", "1.5"}],
+   "]"}]], "Input",
+ CellChangeTimes->{{3.572970929422488*^9, 3.5729709971883645`*^9}, {
+  3.572971130945015*^9, 3.572971152053222*^9}}],
+
+Cell["\<\
+
+
+
+
+
+This function plots a lens comprised of the arcs of two circles of radii r1 \
+and r2, centred on (c1,0) and (c2,0):\
+\>", "Text",
+ CellChangeTimes->{{3.572967558429679*^9, 3.572967573786557*^9}, {
+  3.572967648724843*^9, 3.5729676826787853`*^9}, {3.5729714192565055`*^9, 
+  3.572971419576524*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"plotanylens", "[", 
+   RowBox[{"c1_", ",", "r1_", ",", "c2_", ",", "r2_"}], "]"}], ":=", 
+  RowBox[{"Which", "[", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{
+      RowBox[{"Abs", "[", 
+       RowBox[{"r1", "+", "r2"}], "]"}], "-", 
+      RowBox[{"Abs", "[", 
+       RowBox[{"c2", "-", "c1"}], "]"}]}], "\[LessEqual]", "0"}], 
+    RowBox[{"(*", 
+     RowBox[{"Biconcave", " ", "case"}], "*)"}], ",", "\[IndentingNewLine]", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+       "eqleft", ",", "eqright", ",", "plotleft", ",", "plotright", ",", 
+        "cent1", ",", "rad1", ",", "cent2", ",", "rad2", ",", "meetx", ",", 
+        "limx", ",", "limy", ",", "lim1", ",", "lim2", ",", "plotedge"}], 
+       "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"Off", "[", 
+        RowBox[{"Solve", "::", "ifun"}], "]"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"Off", "[", 
+        RowBox[{"Solve", "::", "ratnz"}], "]"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"eqleft", "=", 
+        RowBox[{"y", "/.", 
+         RowBox[{"Solve", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{
+             RowBox[{
+              RowBox[{"(", 
+               RowBox[{"x", "-", "cent1"}], ")"}], "^", "2"}], "+", 
+             RowBox[{"y", "^", "2"}]}], "\[Equal]", 
+            RowBox[{"rad1", "^", "2"}]}], ",", "y"}], "]"}]}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"eqright", "=", 
+        RowBox[{"y", "/.", 
+         RowBox[{"Solve", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{
+             RowBox[{
+              RowBox[{"(", 
+               RowBox[{"x", "-", "cent2"}], ")"}], "^", "2"}], "+", 
+             RowBox[{"y", "^", "2"}]}], "\[Equal]", 
+            RowBox[{"rad2", "^", "2"}]}], ",", "y"}], "]"}]}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"limx", "=", 
+        RowBox[{"1.5", 
+         RowBox[{"Abs", "[", 
+          RowBox[{
+           RowBox[{"Abs", "[", 
+            RowBox[{"r1", "+", "r2"}], "]"}], "-", 
+           RowBox[{"Abs", "[", 
+            RowBox[{"c2", "-", "c1"}], "]"}]}], "]"}]}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"limy", "=", 
+        RowBox[{"Min", "[", 
+         RowBox[{"Select", "[", 
+          RowBox[{
+           RowBox[{"{", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"eqleft", "[", 
+               RowBox[{"[", "1", "]"}], "]"}], "/.", 
+              RowBox[{"{", 
+               RowBox[{
+                RowBox[{"cent1", "\[Rule]", "c1"}], ",", 
+                RowBox[{"cent2", "\[Rule]", "c2"}], ",", 
+                RowBox[{"rad1", "\[Rule]", "r1"}], ",", 
+                RowBox[{"rad2", "\[Rule]", "r2"}], ",", 
+                RowBox[{"x", "\[Rule]", "limx"}]}], "}"}]}], ",", 
+             "\[IndentingNewLine]", 
+             RowBox[{
+              RowBox[{"eqright", "[", 
+               RowBox[{"[", "1", "]"}], "]"}], "/.", 
+              RowBox[{"{", 
+               RowBox[{
+                RowBox[{"cent1", "\[Rule]", "c1"}], ",", 
+                RowBox[{"cent2", "\[Rule]", "c2"}], ",", 
+                RowBox[{"rad1", "\[Rule]", "r1"}], ",", 
+                RowBox[{"rad2", "\[Rule]", "r2"}], ",", 
+                RowBox[{"x", "\[Rule]", "limx"}]}], "}"}]}]}], "}"}], ",", 
+           RowBox[{
+            RowBox[{"#", "\[Equal]", 
+             RowBox[{"Conjugate", "[", "#", "]"}]}], "&"}]}], "]"}], "]"}]}], 
+       ";", "\[IndentingNewLine]", 
+       RowBox[{"lim1", "=", 
+        RowBox[{
+         RowBox[{"x", "/.", 
+          RowBox[{
+           RowBox[{"Solve", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{
+               RowBox[{
+                RowBox[{"(", 
+                 RowBox[{"x", "-", "c1"}], ")"}], "^", "2"}], "+", 
+               RowBox[{"y", "^", "2"}]}], "\[Equal]", 
+              RowBox[{"r1", "^", "2"}]}], ",", "x"}], "]"}], "[", 
+           RowBox[{"[", "2", "]"}], "]"}]}], "/.", 
+         RowBox[{"y", "\[Rule]", "limy"}]}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"lim2", "=", 
+        RowBox[{
+         RowBox[{"x", "/.", 
+          RowBox[{
+           RowBox[{"Solve", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{
+               RowBox[{
+                RowBox[{"(", 
+                 RowBox[{"x", "-", "c2"}], ")"}], "^", "2"}], "+", 
+               RowBox[{"y", "^", "2"}]}], "\[Equal]", 
+              RowBox[{"r2", "^", "2"}]}], ",", "x"}], "]"}], "[", 
+           RowBox[{"[", "1", "]"}], "]"}]}], "/.", 
+         RowBox[{"y", "\[Rule]", "limy"}]}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"plotedge", "=", 
+        RowBox[{"Show", "[", 
+         RowBox[{
+          RowBox[{"Plot", "[", 
+           RowBox[{"limy", ",", 
+            RowBox[{"{", 
+             RowBox[{"x", ",", "lim1", ",", "lim2"}], "}"}]}], "]"}], ",", 
+          RowBox[{"Plot", "[", 
+           RowBox[{
+            RowBox[{"-", "limy"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"x", ",", "lim1", ",", "lim2"}], "}"}]}], "]"}]}], 
+         "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"plotleft", "=", 
+        RowBox[{"Plot", "[", 
+         RowBox[{
+          RowBox[{"eqleft", "/.", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"cent1", "\[Rule]", "c1"}], ",", 
+             RowBox[{"rad1", "\[Rule]", "r1"}]}], "}"}]}], ",", 
+          RowBox[{"{", 
+           RowBox[{"x", ",", "lim1", ",", 
+            RowBox[{"c1", "+", "r1"}]}], "}"}], ",", 
+          RowBox[{"AspectRatio", "\[Rule]", "Automatic"}], ",", 
+          RowBox[{"PlotRange", "\[Rule]", "All"}], ",", 
+          RowBox[{"AxesOrigin", "\[Rule]", 
+           RowBox[{"{", 
+            RowBox[{"0", ",", "0"}], "}"}]}]}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"plotright", "=", 
+        RowBox[{"Plot", "[", 
+         RowBox[{
+          RowBox[{"eqright", "/.", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"cent2", "\[Rule]", "c2"}], ",", 
+             RowBox[{"rad2", "\[Rule]", "r2"}]}], "}"}]}], ",", 
+          RowBox[{"{", 
+           RowBox[{"x", ",", 
+            RowBox[{"c2", "-", "r2"}], ",", "lim2"}], "}"}], ",", 
+          RowBox[{"AspectRatio", "\[Rule]", "Automatic"}], ",", 
+          RowBox[{"PlotRange", "\[Rule]", "All"}], ",", 
+          RowBox[{"AxesOrigin", "\[Rule]", 
+           RowBox[{"{", 
+            RowBox[{"0", ",", "0"}], "}"}]}]}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Show", "[", 
+        RowBox[{"plotright", ",", "plotleft", ",", "plotedge"}], "]"}]}]}], 
+     "\[IndentingNewLine]", "]"}], ",", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"Abs", "[", 
+       RowBox[{"r1", "+", "r2"}], "]"}], "-", 
+      RowBox[{"Abs", "[", 
+       RowBox[{"c2", "-", "c1"}], "]"}]}], ">", "0"}], 
+    RowBox[{"(*", 
+     RowBox[{"Biconvex", " ", "and", " ", "other", " ", "cases"}], "*)"}], 
+    ",", "\[IndentingNewLine]", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+       "meetings", ",", "meetx", ",", "lims", ",", "limleft", ",", "limright",
+         ",", "plotleft", ",", "plotright"}], "}"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"meetings", "=", 
+        RowBox[{"Solve", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{
+              RowBox[{
+               RowBox[{
+                RowBox[{"(", 
+                 RowBox[{"x", "-", "cent1"}], ")"}], "^", "2"}], "+", 
+               RowBox[{"y", "^", "2"}]}], "\[Equal]", 
+              RowBox[{"rad1", "^", "2"}]}], ",", 
+             RowBox[{
+              RowBox[{
+               RowBox[{
+                RowBox[{"(", 
+                 RowBox[{"x", "-", "cent2"}], ")"}], "^", "2"}], "+", 
+               RowBox[{"y", "^", "2"}]}], "\[Equal]", 
+              RowBox[{"rad2", "^", "2"}]}]}], "}"}], "/.", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"cent1", "\[Rule]", "c1"}], ",", 
+             RowBox[{"rad1", "\[Rule]", "r1"}], ",", 
+             RowBox[{"cent2", "\[Rule]", "c2"}], ",", 
+             RowBox[{"rad2", "\[Rule]", "r2"}]}], "}"}]}], ",", 
+          RowBox[{"{", 
+           RowBox[{"x", ",", "y"}], "}"}]}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"y", "/.", 
+            RowBox[{"meetings", "[", 
+             RowBox[{"[", "1", "]"}], "]"}]}], ")"}], "\[Equal]", 
+          RowBox[{"Conjugate", "[", 
+           RowBox[{"y", "/.", 
+            RowBox[{"meetings", "[", 
+             RowBox[{"[", "1", "]"}], "]"}]}], "]"}]}], ",", 
+         RowBox[{"Module", "[", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"eqleft", ",", "eqright"}], "}"}], ",", 
+           "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"Off", "[", 
+             RowBox[{"Solve", "::", "ifun"}], "]"}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"Off", "[", 
+             RowBox[{"Solve", "::", "ratnz"}], "]"}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"eqleft", "=", 
+             RowBox[{"y", "/.", 
+              RowBox[{"Solve", "[", 
+               RowBox[{
+                RowBox[{
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"(", 
+                    RowBox[{"x", "-", "cent1"}], ")"}], "^", "2"}], "+", 
+                  RowBox[{"y", "^", "2"}]}], "\[Equal]", 
+                 RowBox[{"rad1", "^", "2"}]}], ",", "y"}], "]"}]}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"eqright", "=", 
+             RowBox[{"y", "/.", 
+              RowBox[{"Solve", "[", 
+               RowBox[{
+                RowBox[{
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"(", 
+                    RowBox[{"x", "-", "cent2"}], ")"}], "^", "2"}], "+", 
+                  RowBox[{"y", "^", "2"}]}], "\[Equal]", 
+                 RowBox[{"rad2", "^", "2"}]}], ",", "y"}], "]"}]}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"meetx", "=", 
+             RowBox[{"x", "/.", 
+              RowBox[{"meetings", "[", 
+               RowBox[{"[", "1", "]"}], "]"}]}]}], ";", "\[IndentingNewLine]", 
+            RowBox[{"lims", "=", 
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"{", 
+                RowBox[{"x", ",", "meetx", ",", 
+                 RowBox[{"c1", "-", 
+                  RowBox[{
+                   RowBox[{"Sign", "[", "c1", "]"}], "r1"}]}]}], "}"}], ",", 
+               RowBox[{"{", 
+                RowBox[{"x", ",", "meetx", ",", 
+                 RowBox[{"c2", "-", 
+                  RowBox[{
+                   RowBox[{"Sign", "[", "c2", "]"}], "r2"}]}]}], "}"}]}], 
+              "}"}]}], ";", "\[IndentingNewLine]", 
+            RowBox[{"limleft", "=", 
+             RowBox[{"lims", "[", 
+              RowBox[{"[", "1", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+            RowBox[{"limright", "=", 
+             RowBox[{"lims", "[", 
+              RowBox[{"[", "2", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+            RowBox[{"plotleft", "=", 
+             RowBox[{"Plot", "[", 
+              RowBox[{
+               RowBox[{"eqleft", "/.", 
+                RowBox[{"{", 
+                 RowBox[{
+                  RowBox[{"cent1", "\[Rule]", "c1"}], ",", 
+                  RowBox[{"rad1", "\[Rule]", "r1"}]}], "}"}]}], ",", 
+               RowBox[{"{", 
+                RowBox[{"x", ",", 
+                 RowBox[{"limleft", "[", 
+                  RowBox[{"[", "2", "]"}], "]"}], ",", 
+                 RowBox[{"limleft", "[", 
+                  RowBox[{"[", "3", "]"}], "]"}]}], "}"}], ",", 
+               RowBox[{"AspectRatio", "\[Rule]", "Automatic"}], ",", 
+               RowBox[{"PlotRange", "\[Rule]", "All"}], ",", 
+               RowBox[{"AxesOrigin", "\[Rule]", 
+                RowBox[{"{", 
+                 RowBox[{"0", ",", "0"}], "}"}]}]}], "]"}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"plotright", "=", 
+             RowBox[{"Plot", "[", 
+              RowBox[{
+               RowBox[{"eqright", "/.", 
+                RowBox[{"{", 
+                 RowBox[{
+                  RowBox[{"cent2", "\[Rule]", "c2"}], ",", 
+                  RowBox[{"rad2", "\[Rule]", "r2"}]}], "}"}]}], ",", 
+               RowBox[{"{", 
+                RowBox[{"x", ",", 
+                 RowBox[{"limright", "[", 
+                  RowBox[{"[", "2", "]"}], "]"}], ",", 
+                 RowBox[{"limright", "[", 
+                  RowBox[{"[", "3", "]"}], "]"}]}], "}"}], ",", 
+               RowBox[{"AspectRatio", "\[Rule]", "Automatic"}], ",", 
+               RowBox[{"PlotRange", "\[Rule]", "All"}], ",", 
+               RowBox[{"AxesOrigin", "\[Rule]", 
+                RowBox[{"{", 
+                 RowBox[{"0", ",", "0"}], "}"}]}]}], "]"}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"Show", "[", 
+             RowBox[{"plotright", ",", "plotleft"}], "]"}]}]}], "]"}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{"(*", 
+          RowBox[{"Negative", ",", 
+           RowBox[{"convex", " ", "meniscus", " ", "case"}]}], "*)"}], " ", 
+         RowBox[{"Module", "[", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{
+            "eqleft", ",", "eqright", ",", "limx1", ",", "limx2s", ",", 
+             "limx2", ",", "limys", ",", "plotedge", ",", "thickness"}], 
+            "}"}], ",", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"Off", "[", 
+             RowBox[{"Solve", "::", "ifun"}], "]"}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"Off", "[", 
+             RowBox[{"Solve", "::", "ratnz"}], "]"}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"thickness", "=", 
+             RowBox[{"Abs", "[", 
+              RowBox[{
+               RowBox[{"(", 
+                RowBox[{"c2", "-", "c1"}], ")"}], "+", 
+               RowBox[{"(", 
+                RowBox[{"r2", "-", "r1"}], ")"}]}], "]"}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"eqleft", "=", 
+             RowBox[{"y", "/.", 
+              RowBox[{"Solve", "[", 
+               RowBox[{
+                RowBox[{
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"(", 
+                    RowBox[{"x", "-", "cent1"}], ")"}], "^", "2"}], "+", 
+                  RowBox[{"y", "^", "2"}]}], "\[Equal]", 
+                 RowBox[{"rad1", "^", "2"}]}], ",", "y"}], "]"}]}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"eqright", "=", 
+             RowBox[{"y", "/.", 
+              RowBox[{"Solve", "[", 
+               RowBox[{
+                RowBox[{
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"(", 
+                    RowBox[{"x", "-", "cent2"}], ")"}], "^", "2"}], "+", 
+                  RowBox[{"y", "^", "2"}]}], "\[Equal]", 
+                 RowBox[{"rad2", "^", "2"}]}], ",", "y"}], "]"}]}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"limx1", "=", 
+             RowBox[{"c2", "+", "r2", "-", 
+              RowBox[{"3", "thickness"}]}]}], ";", "\[IndentingNewLine]", 
+            RowBox[{"limys", "=", 
+             RowBox[{
+              RowBox[{"y", "/.", 
+               RowBox[{"Solve", "[", 
+                RowBox[{
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{"x", "-", "c1"}], ")"}], "^", "2"}], "+", 
+                   RowBox[{"y", "^", "2"}]}], "\[Equal]", 
+                  RowBox[{"r1", "^", "2"}]}], ",", "y"}], "]"}]}], "/.", 
+              RowBox[{"x", "\[Rule]", "limx1"}]}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"limx2s", "=", 
+             RowBox[{
+              RowBox[{"x", "/.", 
+               RowBox[{"Solve", "[", 
+                RowBox[{
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{"x", "-", "c2"}], ")"}], "^", "2"}], "+", 
+                   RowBox[{"y", "^", "2"}]}], "\[Equal]", 
+                  RowBox[{"r2", "^", "2"}]}], ",", "x"}], "]"}]}], "/.", 
+              RowBox[{"y", "\[Rule]", 
+               RowBox[{"limys", "[", 
+                RowBox[{"[", "1", "]"}], "]"}]}]}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"limx2", "=", 
+             RowBox[{
+              RowBox[{"Select", "[", 
+               RowBox[{"limx2s", ",", 
+                RowBox[{
+                 RowBox[{
+                  RowBox[{"Abs", "[", "#", "]"}], "==", 
+                  RowBox[{"Min", "[", 
+                   RowBox[{"Abs", "[", "limx2s", "]"}], "]"}]}], "&"}]}], 
+               "]"}], "[", 
+              RowBox[{"[", "1", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+            RowBox[{"plotedge", "=", 
+             RowBox[{"Show", "[", 
+              RowBox[{
+               RowBox[{"Plot", "[", 
+                RowBox[{
+                 RowBox[{"limys", "[", 
+                  RowBox[{"[", "1", "]"}], "]"}], ",", 
+                 RowBox[{"{", 
+                  RowBox[{"x", ",", "limx1", ",", "limx2"}], "}"}]}], "]"}], 
+               ",", 
+               RowBox[{"Plot", "[", 
+                RowBox[{
+                 RowBox[{"limys", "[", 
+                  RowBox[{"[", "2", "]"}], "]"}], ",", 
+                 RowBox[{"{", 
+                  RowBox[{"x", ",", "limx1", ",", "limx2"}], "}"}]}], "]"}]}],
+               "]"}]}], ";", "\[IndentingNewLine]", 
+            RowBox[{"plotleft", "=", 
+             RowBox[{"Plot", "[", 
+              RowBox[{
+               RowBox[{"eqleft", "/.", 
+                RowBox[{"{", 
+                 RowBox[{
+                  RowBox[{"cent1", "\[Rule]", "c1"}], ",", 
+                  RowBox[{"rad1", "\[Rule]", "r1"}]}], "}"}]}], ",", 
+               RowBox[{"{", 
+                RowBox[{"x", ",", "limx1", ",", 
+                 RowBox[{"c1", "+", "r1"}]}], "}"}], ",", 
+               RowBox[{"AspectRatio", "\[Rule]", "Automatic"}], ",", 
+               RowBox[{"PlotRange", "\[Rule]", "All"}], ",", 
+               RowBox[{"AxesOrigin", "\[Rule]", 
+                RowBox[{"{", 
+                 RowBox[{"0", ",", "0"}], "}"}]}]}], "]"}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"plotright", "=", 
+             RowBox[{"Plot", "[", 
+              RowBox[{
+               RowBox[{"eqright", "/.", 
+                RowBox[{"{", 
+                 RowBox[{
+                  RowBox[{"cent2", "\[Rule]", "c2"}], ",", 
+                  RowBox[{"rad2", "\[Rule]", "r2"}]}], "}"}]}], ",", 
+               RowBox[{"{", 
+                RowBox[{"x", ",", 
+                 RowBox[{"c2", "+", "r2"}], ",", "limx2"}], "}"}], ",", 
+               RowBox[{"AspectRatio", "\[Rule]", "Automatic"}], ",", 
+               RowBox[{"PlotRange", "\[Rule]", "All"}], ",", 
+               RowBox[{"AxesOrigin", "\[Rule]", 
+                RowBox[{"{", 
+                 RowBox[{"0", ",", "0"}], "}"}]}]}], "]"}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"Show", "[", 
+             RowBox[{"plotright", ",", "plotleft", ",", "plotedge"}], 
+             "]"}]}]}], "\[IndentingNewLine]", "]"}]}], "]"}]}]}], "]"}]}], 
+   "]"}]}]], "Input",
+ CellChangeTimes->{{3.572966177917718*^9, 3.572966202170105*^9}, {
+  3.572966648367626*^9, 3.5729667434100623`*^9}, {3.5729676466507244`*^9, 
+  3.572967660329507*^9}}],
+
+Cell["Examples:", "Text",
+ CellChangeTimes->{{3.572967558429679*^9, 3.572967573786557*^9}, {
+  3.572967668095951*^9, 3.572967678807564*^9}, {3.572970162638631*^9, 
+  3.572970165800812*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"plotanylens", "[", 
+    RowBox[{
+     RowBox[{"-", "100"}], ",", "104", ",", "100", ",", "110"}], "]"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"plotanylens", "[", 
+    RowBox[{
+     RowBox[{"-", "100"}], ",", "99", ",", "85", ",", "84"}], "]"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"plotanylens", "[", 
+    RowBox[{"50", ",", "55", ",", "40", ",", "60"}], "]"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"plotanylens", "[", 
+    RowBox[{
+     RowBox[{"-", "250"}], ",", "55", ",", 
+     RowBox[{"-", "230"}], ",", "60"}], "]"}], ",", "\[IndentingNewLine]", 
+   RowBox[{"plotanylens", "[", 
+    RowBox[{"100", ",", "104", ",", "100004", ",", "100000"}], "]"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"plotanylens", "[", 
+    RowBox[{
+     RowBox[{"-", "100004"}], ",", "100000", ",", "85", ",", "84"}], "]"}], 
+   ",", "\[IndentingNewLine]", 
+   RowBox[{"plotanylens", "[", 
+    RowBox[{
+     RowBox[{"-", "200"}], ",", "217.7", ",", 
+     RowBox[{"-", "3790"}], ",", "3819"}], "]"}]}], "}"}]], "Input",
+ CellChangeTimes->{{3.5729700216915693`*^9, 3.5729700989909906`*^9}, {
+  3.5729701420334525`*^9, 3.572970142570483*^9}}],
+
+Cell["\<\
+
+
+
+
+
+This function plots the path of a beam of light through a lens, as well as \
+the lens iteslf, in colour, given the beam\[CloseCurlyQuote]s starting \
+coordinates (x1,y1), its original angle of elevation th,  the radii r1 and r2 \
+of the circles centred at the points (c1,0) and (c2,0) which comprise the \
+lens, the refractive indices n1 and n2 of the outside medium and the lens \
+medium, the colour of the beam (requires an acceptable argument for PlotStyle \
+e.g. \[OpenCurlyDoubleQuote]Red\[CloseCurlyDoubleQuote] but not \
+\[OpenCurlyDoubleQuote]red\[CloseCurlyDoubleQuote] or \
+\[OpenCurlyDoubleQuote]puce\[CloseCurlyDoubleQuote]), and the x-coordiante \
+xlimit up to which the emerging beam will be plotted.\
+\>", "Text",
+ CellChangeTimes->{{3.572967558429679*^9, 3.572967573786557*^9}, {
+  3.572967668095951*^9, 3.572967678807564*^9}, {3.5729714172253895`*^9, 
+  3.572971417571409*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"pathanylens", "[", 
+   RowBox[{
+   "x1_", ",", "y1_", ",", "th_", ",", "c1_", ",", "r1_", ",", "c2_", ",", 
+    "r2_", ",", "n1_", ",", "n2_", ",", "colour_", ",", "xlimit_"}], "]"}], ":=", 
+  RowBox[{"If", "[", 
+   RowBox[{
+    RowBox[{"StringQ", "[", 
+     RowBox[{"incidencelens", "[", 
+      RowBox[{"x1", ",", "y1", ",", "th", ",", "r1", ",", "c1"}], "]"}], 
+     "]"}], ",", 
+    RowBox[{"incidencelens", "[", 
+     RowBox[{"x1", ",", "y1", ",", "th", ",", "r1", ",", "c1"}], "]"}], ",", 
+    "\[IndentingNewLine]", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+       "newth1", ",", "newth2", ",", "incx1", ",", "incy1", ",", "incx2", ",",
+         "incy2", ",", "plotl", ",", "plot1", ",", "plot2", ",", "plot3"}], 
+       "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"incx1", ",", "incy1"}], "}"}], "=", 
+        RowBox[{"incidencelens", "[", 
+         RowBox[{"x1", ",", "y1", ",", "th", ",", "r1", ",", "c1"}], "]"}]}], 
+       ";", "\[IndentingNewLine]", 
+       RowBox[{"newth1", "=", 
+        RowBox[{"refth", "[", 
+         RowBox[{
+         "x1", ",", "y1", ",", "th", ",", "r1", ",", "c1", ",", "n1", ",", 
+          "n2"}], "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"incx2", ",", "incy2"}], "}"}], "=", 
+        RowBox[{"incidencelens", "[", 
+         RowBox[{"incx1", ",", "incy1", ",", "newth1", ",", "r2", ",", "c2"}],
+          "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"newth2", "=", 
+        RowBox[{"refth", "[", 
+         RowBox[{
+         "incx1", ",", "incy1", ",", "newth1", ",", "r2", ",", "c2", ",", 
+          "n2", ",", "n1"}], "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"plot1", "=", 
+        RowBox[{"Plot", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{
+            RowBox[{"Tan", "[", "th", "]"}], 
+            RowBox[{"(", 
+             RowBox[{"x", "-", "x1"}], ")"}]}], "+", "y1"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"x", ",", "x1", ",", "incx1"}], "}"}], ",", 
+          RowBox[{"AxesOrigin", "\[Rule]", 
+           RowBox[{"{", 
+            RowBox[{"0", ",", "0"}], "}"}]}], ",", 
+          RowBox[{"PlotRange", "\[Rule]", "All"}], ",", 
+          RowBox[{"PlotStyle", "\[Rule]", 
+           RowBox[{"{", 
+            RowBox[{"Thick", ",", "colour"}], "}"}]}]}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"plot2", "=", 
+        RowBox[{"Plot", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{
+            RowBox[{"Tan", "[", "newth1", "]"}], 
+            RowBox[{"(", 
+             RowBox[{"x", "-", "incx1"}], ")"}]}], "+", "incy1"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"x", ",", "incx1", ",", "incx2"}], "}"}], ",", 
+          RowBox[{"AxesOrigin", "\[Rule]", 
+           RowBox[{"{", 
+            RowBox[{"0", ",", "0"}], "}"}]}], ",", 
+          RowBox[{"PlotRange", "\[Rule]", "All"}], ",", 
+          RowBox[{"PlotStyle", "\[Rule]", 
+           RowBox[{"{", 
+            RowBox[{"Thick", ",", "colour"}], "}"}]}]}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"plot3", "=", 
+        RowBox[{"Plot", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{
+            RowBox[{"Tan", "[", "newth2", "]"}], 
+            RowBox[{"(", 
+             RowBox[{"x", "-", "incx2"}], ")"}]}], "+", "incy2"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"x", ",", "incx2", ",", "xlimit"}], "}"}], ",", 
+          RowBox[{"AxesOrigin", "\[Rule]", 
+           RowBox[{"{", 
+            RowBox[{"0", ",", "0"}], "}"}]}], ",", 
+          RowBox[{"PlotRange", "\[Rule]", "All"}], ",", 
+          RowBox[{"PlotStyle", "\[Rule]", 
+           RowBox[{"{", 
+            RowBox[{"Thick", ",", "colour"}], "}"}]}]}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"plotl", "=", 
+        RowBox[{"plotanylens", "[", 
+         RowBox[{"c1", ",", "r1", ",", "c2", ",", "r2"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Show", "[", 
+        RowBox[{"plot1", ",", "plot2", ",", "plot3", ",", "plotl", ",", 
+         RowBox[{"AspectRatio", "\[Rule]", "Automatic"}]}], "]"}]}]}], 
+     "]"}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.5729667502864556`*^9, 3.572966848174054*^9}, {
+  3.5729669039422445`*^9, 3.5729671371435823`*^9}, {3.5729676967555904`*^9, 
+  3.5729676973046217`*^9}}],
+
+Cell["Examples:", "Text",
+ CellChangeTimes->{{3.572967558429679*^9, 3.572967573786557*^9}, {
+  3.572967701218846*^9, 3.572967711241419*^9}, {3.5729707259818525`*^9, 
+  3.572970729105031*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"pathanylens", "[", 
+    RowBox[{
+     RowBox[{"-", "40"}], ",", "20", ",", 
+     RowBox[{"Pi", "/", "8"}], ",", 
+     RowBox[{"-", "220"}], ",", "217.7", ",", 
+     RowBox[{"-", "3810"}], ",", "3819", ",", "1", ",", "1.61503", ",", "Red",
+      ",", "100"}], "]"}], ",", "\[IndentingNewLine]", 
+   RowBox[{"pathanylens", "[", 
+    RowBox[{
+     RowBox[{"-", "40"}], ",", "10", ",", 
+     RowBox[{"Pi", "/", "10"}], ",", 
+     RowBox[{"-", "220"}], ",", "217.7", ",", 
+     RowBox[{"-", "3810"}], ",", "3819", ",", "1", ",", "1.62004", ",", 
+     "Yellow", ",", "100"}], "]"}], ",", "\[IndentingNewLine]", 
+   RowBox[{"pathanylens", "[", 
+    RowBox[{
+     RowBox[{"-", "40"}], ",", 
+     RowBox[{"-", "2"}], ",", 
+     RowBox[{
+      RowBox[{"-", "Pi"}], "/", "10"}], ",", 
+     RowBox[{"-", "220"}], ",", "217.7", ",", 
+     RowBox[{"-", "3810"}], ",", "3819", ",", "1", ",", "1.63208", ",", 
+     "Blue", ",", "100"}], "]"}]}], "}"}]], "Input",
+ CellChangeTimes->{{3.5729704463148565`*^9, 3.5729705472626305`*^9}, {
+  3.5729706895807705`*^9, 3.5729707134721365`*^9}}],
+
+Cell["\<\
+
+
+
+
+
+This function plots the path of 2 beams of light through a lens as well as \
+the lens iteslf,  one at 60% of the radius of the lens, one at 30%, given the \
+the radii r1 and r2 of the circles centred at the points (c1,0) and (c2,0) \
+which comprise the lens, the refractive indices n1 and n2 of the outside \
+medium and the lens medium, the x-coordinate xstart where the two beams will \
+begin travelling horizontally, and the x-coordiante xlimit up to which the \
+emerging beam will be plotted. Also returns a measure of the spherical \
+aberration equal to the height of the lower beam at the x-coordinate of the \
+point where the higher beam meets the x-axis.\
+\>", "Text",
+ CellChangeTimes->{{3.572967558429679*^9, 3.572967573786557*^9}, {
+  3.572967701218846*^9, 3.572967711241419*^9}, {3.5729714148802547`*^9, 
+  3.5729714152552767`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"fullplotandfindaberration", "[", 
+   RowBox[{
+   "c1_", ",", "r1_", ",", "c2_", ",", "r2_", ",", "n1_", ",", "n2_", ",", 
+    "xstart_", ",", "xlimit_"}], "]"}], ":=", "\[IndentingNewLine]", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+     "x1", ",", "y1", ",", "incx1", ",", "incy1", ",", "incx2", ",", "incy2", 
+      ",", "newth1", ",", "newth2", ",", "circeq", ",", "curve1", ",", 
+      "curve2", ",", "xmeet", ",", "ys", ",", "ytop", ",", "plot0", ",", 
+      "plotl", ",", "plot1", ",", "plot2", ",", "plot3", ",", "plotbeam1", 
+      ",", "plotbeam2", ",", "plotfocus", ",", "focus", ",", "intopbeampath", 
+      ",", "topbeampath", ",", "innextbeampath", ",", "nextbeampath", ",", 
+      "aberration"}], "}"}], ",", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"Off", "[", 
+      RowBox[{"Solve", "::", "ifun"}], "]"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"Off", "[", 
+      RowBox[{"Solve", "::", "ratnz"}], "]"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"plotl", "=", 
+      RowBox[{"plotanylens", "[", 
+       RowBox[{"c1", ",", "r1", ",", "c2", ",", "r2"}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"circeq", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{"x", "-", "c"}], ")"}], "^", "2"}], "+", 
+        RowBox[{"y", "^", "2"}]}], "\[Equal]", 
+       RowBox[{"r", "^", "2"}]}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"curve1", "=", 
+      RowBox[{"Solve", "[", 
+       RowBox[{
+        RowBox[{"circeq", "/.", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"c", "\[Rule]", "c1"}], ",", 
+           RowBox[{"r", "\[Rule]", "r1"}]}], "}"}]}], ",", "y"}], "]"}]}], 
+     ";", "\[IndentingNewLine]", 
+     RowBox[{"curve2", "=", 
+      RowBox[{"Solve", "[", 
+       RowBox[{
+        RowBox[{"circeq", "/.", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"c", "\[Rule]", "c2"}], ",", 
+           RowBox[{"r", "\[Rule]", "r2"}]}], "}"}]}], ",", "y"}], "]"}]}], 
+     ";", "\[IndentingNewLine]", 
+     RowBox[{"xmeet", "=", 
+      RowBox[{"x", "/.", 
+       RowBox[{
+        RowBox[{"Solve", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{"y", "/.", "curve1"}], ")"}], "\[Equal]", 
+           RowBox[{"(", 
+            RowBox[{"y", "/.", "curve2"}], ")"}]}], ",", "x"}], "]"}], "[", 
+        RowBox[{"[", "1", "]"}], "]"}]}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"ys", "=", 
+      RowBox[{
+       RowBox[{"y", "/.", 
+        RowBox[{"Solve", "[", 
+         RowBox[{
+          RowBox[{"circeq", "/.", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"c", "\[Rule]", "c1"}], ",", 
+             RowBox[{"r", "\[Rule]", "r1"}]}], "}"}]}], ",", "y"}], "]"}]}], "/.", 
+       RowBox[{"x", "\[Rule]", "xmeet"}]}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"ytop", "=", 
+      RowBox[{"Max", "[", "ys", "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"x1", "=", 
+      RowBox[{"-", "1000"}]}], ";", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
+     RowBox[{"y1", "=", 
+      RowBox[{"0.6", "ytop"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"incx1", ",", "incy1"}], "}"}], "=", 
+      RowBox[{"incidencelens", "[", 
+       RowBox[{"x1", ",", "y1", ",", "0", ",", "r1", ",", "c1"}], "]"}]}], 
+     ";", "\[IndentingNewLine]", 
+     RowBox[{"newth1", "=", 
+      RowBox[{"refth", "[", 
+       RowBox[{
+       "x1", ",", "y1", ",", "0", ",", "r1", ",", "c1", ",", "n1", ",", 
+        "n2"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"intopbeampath", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Tan", "[", "newth1", "]"}], 
+        RowBox[{"(", 
+         RowBox[{"x", "-", "incx1"}], ")"}]}], "+", "incy1"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"incx2", ",", "incy2"}], "}"}], "=", 
+      RowBox[{"incidencelens", "[", 
+       RowBox[{"incx1", ",", "incy1", ",", "newth1", ",", "r2", ",", "c2"}], 
+       "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"newth2", "=", 
+      RowBox[{"refth", "[", 
+       RowBox[{
+       "incx1", ",", "incy1", ",", "newth1", ",", "r2", ",", "c2", ",", "n2", 
+        ",", "n1"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"topbeampath", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Tan", "[", "newth2", "]"}], 
+        RowBox[{"(", 
+         RowBox[{"x", "-", "incx2"}], ")"}]}], "+", "incy2"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"plot0", "=", 
+      RowBox[{"Plot", "[", 
+       RowBox[{"intopbeampath", ",", 
+        RowBox[{"{", 
+         RowBox[{"x", ",", "incx1", ",", "incx2"}], "}"}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"plot1", "=", 
+      RowBox[{"Plot", "[", 
+       RowBox[{"topbeampath", ",", 
+        RowBox[{"{", 
+         RowBox[{"x", ",", "incx2", ",", "xlimit"}], "}"}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"focus", "=", 
+      RowBox[{"x", "/.", 
+       RowBox[{
+        RowBox[{"Solve", "[", 
+         RowBox[{
+          RowBox[{"topbeampath", "\[Equal]", "0"}], ",", "x"}], "]"}], "[", 
+        RowBox[{"[", "1", "]"}], "]"}]}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"plotfocus", "=", 
+      RowBox[{"ListPlot", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"{", 
+          RowBox[{"focus", ",", "0"}], "}"}], "}"}], ",", 
+        RowBox[{"PlotStyle", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{"Red", ",", 
+           RowBox[{"PointSize", "[", "Large", "]"}]}], "}"}]}]}], "]"}]}], 
+     ";", "\[IndentingNewLine]", 
+     RowBox[{"plotbeam1", "=", 
+      RowBox[{"Plot", "[", 
+       RowBox[{"y1", ",", 
+        RowBox[{"{", 
+         RowBox[{"x", ",", "xstart", ",", "incx1"}], "}"}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"y1", "=", 
+      RowBox[{"0.5", "y1"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"incx1", ",", "incy1"}], "}"}], "=", 
+      RowBox[{"incidencelens", "[", 
+       RowBox[{"x1", ",", "y1", ",", "0", ",", "r1", ",", "c1"}], "]"}]}], 
+     ";", "\[IndentingNewLine]", 
+     RowBox[{"newth1", "=", 
+      RowBox[{"refth", "[", 
+       RowBox[{
+       "incx1", ",", "incy1", ",", "0", ",", "r1", ",", "c1", ",", "n1", ",", 
+        "n2"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"innextbeampath", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Tan", "[", "newth1", "]"}], 
+        RowBox[{"(", 
+         RowBox[{"x", "-", "incx1"}], ")"}]}], "+", "incy1"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"incx2", ",", "incy2"}], "}"}], "=", 
+      RowBox[{"incidencelens", "[", 
+       RowBox[{"incx1", ",", "incy1", ",", "newth1", ",", "r2", ",", "c2"}], 
+       "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"newth2", "=", 
+      RowBox[{"refth", "[", 
+       RowBox[{
+       "incx2", ",", "incy2", ",", "newth1", ",", "r2", ",", "c2", ",", "n2", 
+        ",", "n1"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"nextbeampath", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Tan", "[", "newth2", "]"}], 
+        RowBox[{"(", 
+         RowBox[{"x", "-", "incx2"}], ")"}]}], "+", "incy2"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"plot2", "=", 
+      RowBox[{"Plot", "[", 
+       RowBox[{"nextbeampath", ",", 
+        RowBox[{"{", 
+         RowBox[{"x", ",", "incx2", ",", "xlimit"}], "}"}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"plot3", "=", 
+      RowBox[{"Plot", "[", 
+       RowBox[{"innextbeampath", ",", 
+        RowBox[{"{", 
+         RowBox[{"x", ",", "incx1", ",", "incx2"}], "}"}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"plotbeam2", "=", 
+      RowBox[{"Plot", "[", 
+       RowBox[{"y1", ",", 
+        RowBox[{"{", 
+         RowBox[{"x", ",", "xstart", ",", "incx1"}], "}"}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"aberration", "=", 
+      RowBox[{"nextbeampath", "/.", 
+       RowBox[{"x", "\[Rule]", "focus"}]}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"Show", "[", 
+        RowBox[{
+        "plot0", ",", "plot1", ",", "plot2", ",", "plot3", ",", "plotbeam1", 
+         ",", "plotbeam2", ",", "plotfocus", ",", "plotl", ",", 
+         RowBox[{"AspectRatio", "\[Rule]", "Automatic"}], ",", 
+         RowBox[{"PlotRange", "\[Rule]", "All"}], ",", 
+         RowBox[{"AxesOrigin", "\[Rule]", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0"}], "}"}]}]}], "]"}], ",", "aberration"}], 
+      "}"}]}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.57253587701623*^9, 3.5725360835160413`*^9}, {
+   3.57253615535715*^9, 3.572536209256233*^9}, {3.5725363216836634`*^9, 
+   3.5725363790439444`*^9}, {3.5725364289612675`*^9, 
+   3.5725364369640813`*^9}, {3.572536683210514*^9, 3.572536683928115*^9}, {
+   3.5725389831619277`*^9, 3.5725389946747475`*^9}, 3.572539231202363*^9, {
+   3.572539287502862*^9, 3.572539386141835*^9}, {3.5726867599811735`*^9, 
+   3.572686793857111*^9}, {3.572800753016842*^9, 3.5728007534878693`*^9}, {
+   3.572870519959012*^9, 3.572870531542674*^9}, {3.572939132696849*^9, 
+   3.5729391331448746`*^9}, {3.5729671444019976`*^9, 
+   3.5729671449030266`*^9}, {3.572967177499891*^9, 3.5729671970140066`*^9}, {
+   3.5729673145507298`*^9, 3.5729675005133657`*^9}, {3.5729677044790325`*^9, 
+   3.5729677157426767`*^9}}],
+
+Cell["Example:", "Text",
+ CellChangeTimes->{{3.572967558429679*^9, 3.572967573786557*^9}, {
+  3.572967701218846*^9, 3.572967711241419*^9}, {3.5729680063202963`*^9, 
+  3.572968074843216*^9}, {3.5729710058458595`*^9, 3.5729710080619864`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"fullplotandfindaberration", "[", 
+  RowBox[{"100", ",", "130", ",", 
+   RowBox[{"-", "60"}], ",", "75", ",", "1", ",", "1.5", ",", 
+   RowBox[{"-", "50"}], ",", "100"}], "]"}]], "Input",
+ CellChangeTimes->{{3.572970929422488*^9, 3.5729709971883645`*^9}}],
+
+Cell["\<\
+
+
+
+
+
+This function carries out the same routines as fullplotandfindaberration \
+excluding those which involve plotting. It returns only the value for the \
+aberration, and does so slightly faster than the above function.\
+\>", "Text",
+ CellChangeTimes->{{3.572967558429679*^9, 3.572967573786557*^9}, {
+  3.572967701218846*^9, 3.572967711241419*^9}, {3.5729680063202963`*^9, 
+  3.572968074843216*^9}, {3.5729714128311377`*^9, 3.572971413171157*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"findaberration", "[", 
+   RowBox[{
+   "c1_", ",", "r1_", ",", "c2_", ",", "r2_", ",", "n1_", ",", "n2_", ",", 
+    "xlimit_"}], "]"}], ":=", "\[IndentingNewLine]", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+     "x1", ",", "y1", ",", "incx1", ",", "incy1", ",", "incx2", ",", "incy2", 
+      ",", "newth1", ",", "newth2", ",", "circeq", ",", "curve1", ",", 
+      "curve2", ",", "xmeet", ",", "ys", ",", "ytop", ",", "focus", ",", 
+      "topbeampath", ",", "nextbeampath", ",", "aberration"}], "}"}], ",", 
+    "\[IndentingNewLine]", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"circeq", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{"x", "-", "c"}], ")"}], "^", "2"}], "+", 
+        RowBox[{"y", "^", "2"}]}], "\[Equal]", 
+       RowBox[{"r", "^", "2"}]}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"curve1", "=", 
+      RowBox[{"Solve", "[", 
+       RowBox[{
+        RowBox[{"circeq", "/.", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"c", "\[Rule]", "c1"}], ",", 
+           RowBox[{"r", "\[Rule]", "r1"}]}], "}"}]}], ",", "y"}], "]"}]}], 
+     ";", "\[IndentingNewLine]", 
+     RowBox[{"curve2", "=", 
+      RowBox[{"Solve", "[", 
+       RowBox[{
+        RowBox[{"circeq", "/.", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"c", "\[Rule]", "c2"}], ",", 
+           RowBox[{"r", "\[Rule]", "r2"}]}], "}"}]}], ",", "y"}], "]"}]}], 
+     ";", "\[IndentingNewLine]", 
+     RowBox[{"xmeet", "=", 
+      RowBox[{"x", "/.", 
+       RowBox[{
+        RowBox[{"Solve", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{"y", "/.", "curve1"}], ")"}], "\[Equal]", 
+           RowBox[{"(", 
+            RowBox[{"y", "/.", "curve2"}], ")"}]}], ",", "x"}], "]"}], "[", 
+        RowBox[{"[", "1", "]"}], "]"}]}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"ys", "=", 
+      RowBox[{
+       RowBox[{"y", "/.", 
+        RowBox[{"Solve", "[", 
+         RowBox[{
+          RowBox[{"circeq", "/.", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"c", "\[Rule]", "c1"}], ",", 
+             RowBox[{"r", "\[Rule]", "r1"}]}], "}"}]}], ",", "y"}], "]"}]}], "/.", 
+       RowBox[{"x", "\[Rule]", "xmeet"}]}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"ytop", "=", 
+      RowBox[{"Max", "[", "ys", "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"x1", "=", 
+      RowBox[{"-", "1000"}]}], ";", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
+     RowBox[{"y1", "=", 
+      RowBox[{"0.6", "ytop"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"incx1", ",", "incy1"}], "}"}], "=", 
+      RowBox[{"incidencelens", "[", 
+       RowBox[{"x1", ",", "y1", ",", "0", ",", "r1", ",", "c1"}], "]"}]}], 
+     ";", "\[IndentingNewLine]", 
+     RowBox[{"newth1", "=", 
+      RowBox[{"refth", "[", 
+       RowBox[{
+       "x1", ",", "y1", ",", "0", ",", "r1", ",", "c1", ",", "n1", ",", 
+        "n2"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"incx2", ",", "incy2"}], "}"}], "=", 
+      RowBox[{"incidencelens", "[", 
+       RowBox[{"incx1", ",", "incy1", ",", "newth1", ",", "r2", ",", "c2"}], 
+       "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"newth2", "=", 
+      RowBox[{"refth", "[", 
+       RowBox[{
+       "incx1", ",", "incy1", ",", "newth1", ",", "r2", ",", "c2", ",", "n2", 
+        ",", "n1"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"topbeampath", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Tan", "[", "newth2", "]"}], 
+        RowBox[{"(", 
+         RowBox[{"x", "-", "incx2"}], ")"}]}], "+", "incy2"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"focus", "=", 
+      RowBox[{"x", "/.", 
+       RowBox[{
+        RowBox[{"Solve", "[", 
+         RowBox[{
+          RowBox[{"topbeampath", "\[Equal]", "0"}], ",", "x"}], "]"}], "[", 
+        RowBox[{"[", "1", "]"}], "]"}]}]}], ";", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
+     RowBox[{"y1", "=", 
+      RowBox[{"0.5", "y1"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"incx1", ",", "incy1"}], "}"}], "=", 
+      RowBox[{"incidencelens", "[", 
+       RowBox[{"x1", ",", "y1", ",", "0", ",", "r1", ",", "c1"}], "]"}]}], 
+     ";", "\[IndentingNewLine]", 
+     RowBox[{"newth1", "=", 
+      RowBox[{"refth", "[", 
+       RowBox[{
+       "x1", ",", "y1", ",", "0", ",", "r1", ",", "c1", ",", "n1", ",", 
+        "n2"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"incx2", ",", "incy2"}], "}"}], "=", 
+      RowBox[{"incidencelens", "[", 
+       RowBox[{"incx1", ",", "incy1", ",", "newth1", ",", "r2", ",", "c2"}], 
+       "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"newth2", "=", 
+      RowBox[{"refth", "[", 
+       RowBox[{
+       "incx1", ",", "incy1", ",", "newth1", ",", "r2", ",", "c2", ",", "n2", 
+        ",", "n1"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"nextbeampath", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Tan", "[", "newth2", "]"}], 
+        RowBox[{"(", 
+         RowBox[{"x", "-", "incx2"}], ")"}]}], "+", "incy2"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"aberration", "=", 
+      RowBox[{"nextbeampath", "/.", 
+       RowBox[{"x", "\[Rule]", "focus"}]}]}]}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.5729679003022327`*^9, 3.5729679055435324`*^9}, {
+  3.5729679789107285`*^9, 3.5729679822749214`*^9}}],
+
+Cell["Example:", "Text",
+ CellChangeTimes->{{3.572967558429679*^9, 3.572967573786557*^9}, {
+  3.572967701218846*^9, 3.572967711241419*^9}, {3.5729680063202963`*^9, 
+  3.572968074843216*^9}, {3.5729710058458595`*^9, 3.5729710080619864`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"findaberration", "[", 
+  RowBox[{"100", ",", "130", ",", 
+   RowBox[{"-", "60"}], ",", "75", ",", "1", ",", "1.5", ",", "100"}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.572970929422488*^9, 3.5729709971883645`*^9}, {
+  3.572971031882349*^9, 3.5729710410928755`*^9}}],
+
+Cell["\<\
+
+
+
+
+
+This function plots the path of 2 beams of light through two lenses A and B \
+as well as the lenses themselves, starting from a height equal to 90% of the \
+radius of the lens, given:\[LineSeparator]- The radii ra1, ra2, rb1 and rb2 \
+of the circles with their centres at ca1, ca2, cb1 and cb2\[LineSeparator]- \
+The refractive indices nablue, nared, nblue, and nbred of lens A for the \
+higher frequency light, lens A for the lower frequency light, lens B for the \
+higher frequency light, lens B for the lower frequency light and the \
+refractive index nair of the medium surrounding the lenses\[LineSeparator]- \
+The colour of the lower frequency light (the other beam is always plotted blue)
+- The x-coordinate xstart where the two beams will begin travelling \
+horizontally and the x-coordiante xlimit up to which the emerging beam will \
+be plotted.\[LineSeparator]Also returns a measure of the spherical aberration \
+equal to the height of the lower beam at the x-coordinate of the point where \
+the higher beam meets the x-axis.\
+\>", "Text",
+ CellChangeTimes->{{3.572967558429679*^9, 3.572967573786557*^9}, {
+  3.572967701218846*^9, 3.572967711241419*^9}, {3.5729680063202963`*^9, 
+  3.572968074843216*^9}, {3.572968638966482*^9, 3.5729691469785385`*^9}, {
+  3.5729714108620253`*^9, 3.572971411213045*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"anyplotchromaberration", "[", 
+   RowBox[{
+   "ca1_", ",", "ra1_", ",", "ca2_", ",", "ra2_", ",", "cb1_", ",", "rb1_", 
+    ",", "cb2_", ",", "rb2_", ",", "nair_", ",", "nablue_", ",", "nared_", 
+    ",", "nbblue_", ",", "nbred_", ",", "colour_", ",", "xstart_", ",", 
+    "xlimit_"}], "]"}], ":=", "\[IndentingNewLine]", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+     "x1", ",", "y1", ",", "circeq", ",", "curve1", ",", "curve2", ",", 
+      "xmeet", ",", "ys", ",", "ytop", ",", "incxa1", ",", "incya1", ",", 
+      "plotlensa", ",", "plotlensb", ",", "\[IndentingNewLine]", "blueincxa2",
+       ",", "blueincya2", ",", "blueincxb1", ",", "blueincyb1", ",", 
+      "blueincxb2", ",", "blueincyb2", ",", "bluenewtha1", ",", "bluenewtha2",
+       ",", "bluenewthb1", ",", "bluenewthb2", ",", "\[IndentingNewLine]", 
+      "blueinsideapath", ",", "blueoutsideapath", ",", "bluebetweenpath", ",",
+       "blueinsidebpath", ",", "blueendpath", ",", "\[IndentingNewLine]", 
+      "redincxa2", ",", "redincya2", ",", "redincxb1", ",", "redincyb1", ",", 
+      "redincxb2", ",", "redincyb2", ",", "rednewtha1", ",", "rednewtha2", 
+      ",", "rednewthb1", ",", "rednewthb2", ",", "redinsideapath", ",", 
+      "redoutsideapath", ",", "redbetweenpath", ",", "redinsidebpath", ",", 
+      "redendpath", ",", "\[IndentingNewLine]", "bluestartplot", ",", 
+      "blueinsideaplot", ",", "bluebetweenplot", ",", "blueinsidebplot", ",", 
+      "blueendplot", ",", "\[IndentingNewLine]", "redstartplot", ",", 
+      "redinsideaplot", ",", "redbetweenplot", ",", "redinsidebplot", ",", 
+      "redendplot", ",", "\[IndentingNewLine]", "plotfocus", ",", "focus", 
+      ",", "aberration"}], "}"}], ",", "\[IndentingNewLine]", 
+    "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"plotlensa", "=", 
+      RowBox[{"plotanylens", "[", 
+       RowBox[{"ca1", ",", "ra1", ",", "ca2", ",", "ra2"}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"plotlensb", "=", 
+      RowBox[{"plotanylens", "[", 
+       RowBox[{"cb1", ",", "rb1", ",", "cb2", ",", "rb2"}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"circeq", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{"x", "-", "c"}], ")"}], "^", "2"}], "+", 
+        RowBox[{"y", "^", "2"}]}], "\[Equal]", 
+       RowBox[{"r", "^", "2"}]}]}], ";", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
+     RowBox[{"curve1", "=", 
+      RowBox[{"Solve", "[", 
+       RowBox[{
+        RowBox[{"circeq", "/.", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"c", "\[Rule]", "ca1"}], ",", 
+           RowBox[{"r", "\[Rule]", "ra1"}]}], "}"}]}], ",", "y"}], "]"}]}], 
+     ";", "\[IndentingNewLine]", 
+     RowBox[{"curve2", "=", 
+      RowBox[{"Solve", "[", 
+       RowBox[{
+        RowBox[{"circeq", "/.", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"c", "\[Rule]", "ca2"}], ",", 
+           RowBox[{"r", "\[Rule]", "ra2"}]}], "}"}]}], ",", "y"}], "]"}]}], 
+     ";", "\[IndentingNewLine]", 
+     RowBox[{"xmeet", "=", 
+      RowBox[{"x", "/.", 
+       RowBox[{
+        RowBox[{"Solve", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{"y", "/.", "curve1"}], ")"}], "\[Equal]", 
+           RowBox[{"(", 
+            RowBox[{"y", "/.", "curve2"}], ")"}]}], ",", "x"}], "]"}], "[", 
+        RowBox[{"[", "1", "]"}], "]"}]}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"ys", "=", 
+      RowBox[{
+       RowBox[{"y", "/.", 
+        RowBox[{"Solve", "[", 
+         RowBox[{
+          RowBox[{"circeq", "/.", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"c", "\[Rule]", "ca1"}], ",", 
+             RowBox[{"r", "\[Rule]", "ra1"}]}], "}"}]}], ",", "y"}], "]"}]}], 
+       "/.", 
+       RowBox[{"x", "\[Rule]", "xmeet"}]}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"ytop", "=", 
+      RowBox[{"Max", "[", "ys", "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"x1", "=", "xstart"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"y1", "=", 
+      RowBox[{"0.9", "ytop"}]}], ";", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{
+      "From", " ", "the", " ", "start", " ", "point", " ", "to", " ", "the", 
+       " ", "first", " ", "lens", " ", "A", " ", "boundary", " ", "blue", " ",
+        "and", " ", "red", " ", "rays", " ", "are", " ", "the", " ", "same"}],
+       "*)"}], "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"incxa1", ",", "incya1"}], "}"}], "=", 
+      RowBox[{"incidencelens", "[", 
+       RowBox[{"x1", ",", "y1", ",", "0", ",", "ra1", ",", "ca1"}], "]"}]}], 
+     ";", "\[IndentingNewLine]", 
+     RowBox[{"bluestartplot", "=", 
+      RowBox[{"Plot", "[", 
+       RowBox[{"y1", ",", 
+        RowBox[{"{", 
+         RowBox[{"x", ",", "xstart", ",", "incxa1"}], "}"}], ",", 
+        RowBox[{"PlotStyle", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{"Thick", ",", "Blue"}], "}"}]}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"redstartplot", "=", 
+      RowBox[{"Plot", "[", 
+       RowBox[{"y1", ",", 
+        RowBox[{"{", 
+         RowBox[{"x", ",", "xstart", ",", "incxa1"}], "}"}], ",", 
+        RowBox[{"PlotStyle", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{"Thick", ",", "colour"}], "}"}]}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{"BLUE", " ", "BEAM", " ", "PATH"}], "*)"}], 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{"Inside", " ", "lens", " ", "A"}], "*)"}], 
+     "\[IndentingNewLine]", 
+     RowBox[{"bluenewtha1", "=", 
+      RowBox[{"refth", "[", 
+       RowBox[{
+       "x1", ",", "y1", ",", "0", ",", "ra1", ",", "ca1", ",", "nair", ",", 
+        "nablue"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"blueinsideapath", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Tan", "[", "bluenewtha1", "]"}], 
+        RowBox[{"(", 
+         RowBox[{"x", "-", "incxa1"}], ")"}]}], "+", "incya1"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"blueincxa2", ",", "blueincya2"}], "}"}], "=", 
+      RowBox[{"incidencelens", "[", 
+       RowBox[{
+       "incxa1", ",", "incya1", ",", "bluenewtha1", ",", "ra2", ",", "ca2"}], 
+       "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{"Leaving", " ", "lens", " ", "A"}], "*)"}], 
+     "\[IndentingNewLine]", 
+     RowBox[{"bluenewtha2", "=", 
+      RowBox[{"refth", "[", 
+       RowBox[{
+       "incxa1", ",", "incya1", ",", "bluenewtha1", ",", "ra2", ",", "ca2", 
+        ",", "nablue", ",", "nair"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"blueoutsideapath", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Tan", "[", "bluenewtha2", "]"}], 
+        RowBox[{"(", 
+         RowBox[{"x", "-", "blueincxa2"}], ")"}]}], "+", "blueincya2"}]}], 
+     ";", "\[IndentingNewLine]", 
+     RowBox[{"blueinsideaplot", "=", 
+      RowBox[{"Plot", "[", 
+       RowBox[{"blueinsideapath", ",", 
+        RowBox[{"{", 
+         RowBox[{"x", ",", "incxa1", ",", "blueincxa2"}], "}"}], ",", 
+        RowBox[{"PlotStyle", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{"Thick", ",", "Blue"}], "}"}]}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{"Between", " ", "lenses", " ", "A", " ", "and", " ", "B"}], 
+      "*)"}], "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"blueincxb1", ",", "blueincyb1"}], "}"}], "=", 
+      RowBox[{"incidencelens", "[", 
+       RowBox[{
+       "blueincxa2", ",", "blueincya2", ",", "bluenewtha2", ",", "rb1", ",", 
+        "cb1"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"bluebetweenpath", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Tan", "[", "bluenewtha2", "]"}], 
+        RowBox[{"(", 
+         RowBox[{"x", "-", "blueincxa2"}], ")"}]}], "+", "blueincya2"}]}], 
+     ";", "\[IndentingNewLine]", 
+     RowBox[{"bluebetweenplot", "=", 
+      RowBox[{"Plot", "[", 
+       RowBox[{"bluebetweenpath", ",", 
+        RowBox[{"{", 
+         RowBox[{"x", ",", "blueincxa2", ",", "blueincxb1"}], "}"}], ",", 
+        RowBox[{"PlotStyle", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{"Thick", ",", "Blue"}], "}"}]}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{"Inside", " ", "lens", " ", "B"}], "*)"}], 
+     "\[IndentingNewLine]", 
+     RowBox[{"bluenewthb1", "=", 
+      RowBox[{"refth", "[", 
+       RowBox[{
+       "blueincxa2", ",", "blueincya2", ",", "bluenewtha2", ",", "rb1", ",", 
+        "cb1", ",", "nair", ",", "nbblue"}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"blueinsidebpath", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Tan", "[", "bluenewthb1", "]"}], 
+        RowBox[{"(", 
+         RowBox[{"x", "-", "blueincxb1"}], ")"}]}], "+", "blueincyb1"}]}], 
+     ";", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"blueincxb2", ",", "blueincyb2"}], "}"}], "=", 
+      RowBox[{"incidencelens", "[", 
+       RowBox[{
+       "blueincxb1", ",", "blueincyb1", ",", "bluenewthb1", ",", "rb2", ",", 
+        "cb2"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"blueinsidebplot", "=", 
+      RowBox[{"Plot", "[", 
+       RowBox[{"blueinsidebpath", ",", 
+        RowBox[{"{", 
+         RowBox[{"x", ",", "blueincxb1", ",", "blueincxb2"}], "}"}], ",", 
+        RowBox[{"PlotStyle", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{"Thick", ",", "Blue"}], "}"}]}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{"Leaving", " ", "lens", " ", "B"}], "*)"}], 
+     "\[IndentingNewLine]", 
+     RowBox[{"bluenewthb2", "=", 
+      RowBox[{"refth", "[", 
+       RowBox[{
+       "blueincxb1", ",", "blueincyb1", ",", "bluenewthb1", ",", "rb2", ",", 
+        "cb2", ",", "nbblue", ",", "nair"}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"blueendpath", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Tan", "[", "bluenewthb2", "]"}], 
+        RowBox[{"(", 
+         RowBox[{"x", "-", "blueincxb2"}], ")"}]}], "+", "blueincyb2"}]}], 
+     ";", "\[IndentingNewLine]", 
+     RowBox[{"blueendplot", "=", 
+      RowBox[{"Plot", "[", 
+       RowBox[{"blueendpath", ",", 
+        RowBox[{"{", 
+         RowBox[{"x", ",", "blueincxb2", ",", "xlimit"}], "}"}], ",", 
+        RowBox[{"PlotStyle", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{"Thick", ",", "Blue"}], "}"}]}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"focus", "=", 
+      RowBox[{"x", "/.", 
+       RowBox[{
+        RowBox[{"Solve", "[", 
+         RowBox[{
+          RowBox[{"blueendpath", "\[Equal]", "0"}], ",", "x"}], "]"}], "[", 
+        RowBox[{"[", "1", "]"}], "]"}]}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"plotfocus", "=", 
+      RowBox[{"ListPlot", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"{", 
+          RowBox[{"focus", ",", "0"}], "}"}], "}"}], ",", 
+        RowBox[{"PlotStyle", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{"Blue", ",", 
+           RowBox[{"PointSize", "[", "Large", "]"}]}], "}"}]}]}], "]"}]}], 
+     ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{"RED", " ", "BEAM", " ", "PATH"}], "*)"}], 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{"Inside", " ", "lens", " ", "A"}], "*)"}], 
+     "\[IndentingNewLine]", 
+     RowBox[{"rednewtha1", "=", 
+      RowBox[{"refth", "[", 
+       RowBox[{
+       "x1", ",", "y1", ",", "0", ",", "ra1", ",", "ca1", ",", "nair", ",", 
+        "nared"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"redinsideapath", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Tan", "[", "rednewtha1", "]"}], 
+        RowBox[{"(", 
+         RowBox[{"x", "-", "incxa1"}], ")"}]}], "+", "incya1"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"redincxa2", ",", "redincya2"}], "}"}], "=", 
+      RowBox[{"incidencelens", "[", 
+       RowBox[{
+       "incxa1", ",", "incya1", ",", "rednewtha1", ",", "ra2", ",", "ca2"}], 
+       "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{"Leaving", " ", "lens", " ", "A"}], "*)"}], 
+     "\[IndentingNewLine]", 
+     RowBox[{"rednewtha2", "=", 
+      RowBox[{"refth", "[", 
+       RowBox[{
+       "incxa1", ",", "incya1", ",", "rednewtha1", ",", "ra2", ",", "ca2", 
+        ",", "nared", ",", "nair"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"redoutsideapath", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Tan", "[", "rednewtha2", "]"}], 
+        RowBox[{"(", 
+         RowBox[{"x", "-", "redincxa2"}], ")"}]}], "+", "redincya2"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"redinsideaplot", "=", 
+      RowBox[{"Plot", "[", 
+       RowBox[{"redinsideapath", ",", 
+        RowBox[{"{", 
+         RowBox[{"x", ",", "incxa1", ",", "redincxa2"}], "}"}], ",", 
+        RowBox[{"PlotStyle", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{"Thick", ",", "colour"}], "}"}]}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{"Between", " ", "lenses", " ", "A", " ", "and", " ", "B"}], 
+      "*)"}], "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"redincxb1", ",", "redincyb1"}], "}"}], "=", 
+      RowBox[{"incidencelens", "[", 
+       RowBox[{
+       "redincxa2", ",", "redincya2", ",", "rednewtha2", ",", "rb1", ",", 
+        "cb1"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"redbetweenpath", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Tan", "[", "rednewtha2", "]"}], 
+        RowBox[{"(", 
+         RowBox[{"x", "-", "redincxa2"}], ")"}]}], "+", "redincya2"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"redbetweenplot", "=", 
+      RowBox[{"Plot", "[", 
+       RowBox[{"redbetweenpath", ",", 
+        RowBox[{"{", 
+         RowBox[{"x", ",", "redincxa2", ",", "redincxb1"}], "}"}], ",", 
+        RowBox[{"PlotStyle", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{"Thick", ",", "colour"}], "}"}]}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{"Inside", " ", "lens", " ", "B"}], "*)"}], 
+     "\[IndentingNewLine]", 
+     RowBox[{"rednewthb1", "=", 
+      RowBox[{"refth", "[", 
+       RowBox[{
+       "redincxa2", ",", "redincya2", ",", "rednewtha2", ",", "rb1", ",", 
+        "cb1", ",", "nair", ",", "nbred"}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"redinsidebpath", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Tan", "[", "rednewthb1", "]"}], 
+        RowBox[{"(", 
+         RowBox[{"x", "-", "redincxb1"}], ")"}]}], "+", "redincyb1"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"redincxb2", ",", "redincyb2"}], "}"}], "=", 
+      RowBox[{"incidencelens", "[", 
+       RowBox[{
+       "redincxb1", ",", "redincyb1", ",", "rednewthb1", ",", "rb2", ",", 
+        "cb2"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"redinsidebplot", "=", 
+      RowBox[{"Plot", "[", 
+       RowBox[{"redinsidebpath", ",", 
+        RowBox[{"{", 
+         RowBox[{"x", ",", "redincxb1", ",", "redincxb2"}], "}"}], ",", 
+        RowBox[{"PlotStyle", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{"Thick", ",", "colour"}], "}"}]}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{"Leaving", " ", "lens", " ", "B"}], "*)"}], 
+     "\[IndentingNewLine]", 
+     RowBox[{"rednewthb2", "=", 
+      RowBox[{"refth", "[", 
+       RowBox[{
+       "redincxb1", ",", "redincyb1", ",", "rednewthb1", ",", "rb2", ",", 
+        "cb2", ",", "nbred", ",", "nair"}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"redendpath", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Tan", "[", "rednewthb2", "]"}], 
+        RowBox[{"(", 
+         RowBox[{"x", "-", "redincxb2"}], ")"}]}], "+", "redincyb2"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"redendplot", "=", 
+      RowBox[{"Plot", "[", 
+       RowBox[{"redendpath", ",", 
+        RowBox[{"{", 
+         RowBox[{"x", ",", "redincxb2", ",", "xlimit"}], "}"}], ",", 
+        RowBox[{"PlotStyle", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{"Thick", ",", "colour"}], "}"}]}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"aberration", "=", 
+      RowBox[{"redendpath", "/.", 
+       RowBox[{"x", "\[Rule]", "focus"}]}]}], ";", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"Show", "[", 
+        RowBox[{
+        "plotlensa", ",", "plotlensb", ",", "plotfocus", ",", 
+         "\[IndentingNewLine]", "bluestartplot", ",", "blueinsideaplot", ",", 
+         "bluebetweenplot", ",", "blueinsidebplot", ",", "blueendplot", ",", 
+         "\[IndentingNewLine]", "redstartplot", ",", "redinsideaplot", ",", 
+         "redbetweenplot", ",", "redinsidebplot", ",", "redendplot", ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{"AspectRatio", "\[Rule]", "Automatic"}], ",", 
+         RowBox[{"PlotRange", "\[Rule]", "All"}], ",", 
+         RowBox[{"AxesOrigin", "\[Rule]", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0"}], "}"}]}]}], "]"}], ",", "aberration"}], 
+      "}"}]}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.5726936578877115`*^9, 3.572693658520747*^9}, {
+  3.5726936908325953`*^9, 3.5726937326669884`*^9}, {3.572693844261371*^9, 
+  3.5726939083960395`*^9}, {3.5726939400398493`*^9, 3.5726939441140823`*^9}, {
+  3.5726942262982225`*^9, 3.572694264039381*^9}, {3.5726943133292003`*^9, 
+  3.572694314583272*^9}, {3.5726943474991546`*^9, 3.572694428486787*^9}, {
+  3.5726944663829546`*^9, 3.5726945589902515`*^9}, {3.5726946005506287`*^9, 
+  3.572694603979824*^9}, {3.5726953631572466`*^9, 3.5726953661384172`*^9}, {
+  3.572870316721387*^9, 3.572870323465773*^9}, {3.572871348594407*^9, 
+  3.57287140109941*^9}}],
+
+Cell["Example:", "Text",
+ CellChangeTimes->{{3.572967558429679*^9, 3.572967573786557*^9}, {
+  3.572967701218846*^9, 3.572967711241419*^9}, {3.5729680063202963`*^9, 
+  3.572968074843216*^9}, {3.5729710058458595`*^9, 3.5729710080619864`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"anyplotchromaberration", "[", 
+  RowBox[{"200", ",", "217.7", ",", 
+   RowBox[{"-", "200"}], ",", "217.7", ",", 
+   RowBox[{"-", "192"}], ",", "217.7", ",", 
+   RowBox[{"-", "3782"}], ",", "3819", ",", "1", ",", "1.51566", ",", 
+   "1.51009", ",", "1.63208", ",", "1.62004", ",", "Yellow", ",", 
+   RowBox[{"-", "50"}], ",", "500"}], "]"}]], "Input",
+ CellChangeTimes->{{3.5729712300346823`*^9, 3.5729712661607485`*^9}}],
+
+Cell["\<\
+
+
+
+
+
+This function carries out the same routines as anyplotchromaberration \
+excluding those which involve plotting. It returns only the value for the \
+chromatic aberration, and does so slightly faster than the above function.\
+\>", "Text",
+ CellChangeTimes->{{3.572967558429679*^9, 3.572967573786557*^9}, {
+  3.572967701218846*^9, 3.572967711241419*^9}, {3.5729691712879286`*^9, 
+  3.572969186006771*^9}, {3.57297122807557*^9, 3.5729712287566094`*^9}, {
+  3.5729714079118567`*^9, 3.572971408223874*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"chromaberration", "[", 
+   RowBox[{
+   "ca1_", ",", "ra1_", ",", "ca2_", ",", "ra2_", ",", "cb1_", ",", "rb1_", 
+    ",", "cb2_", ",", "rb2_", ",", "nair_", ",", "nablue_", ",", "nared_", 
+    ",", "nbblue_", ",", "nbred_", ",", "xstart_", ",", "xlimit_"}], "]"}], ":=",
+   "\[IndentingNewLine]", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+     "x1", ",", "y1", ",", "circeq", ",", "curve1", ",", "curve2", ",", 
+      "xmeet", ",", "ys", ",", "ytop", ",", "incxa1", ",", "incya1", ",", 
+      "\[IndentingNewLine]", "blueincxa2", ",", "blueincya2", ",", 
+      "blueincxb1", ",", "blueincyb1", ",", "blueincxb2", ",", "blueincyb2", 
+      ",", "bluenewtha1", ",", "bluenewtha2", ",", "bluenewthb1", ",", 
+      "bluenewthb2", ",", "\[IndentingNewLine]", "blueinsideapath", ",", 
+      "blueoutsideapath", ",", "bluebetweenpath", ",", "blueinsidebpath", ",",
+       "blueendpath", ",", "\[IndentingNewLine]", "redincxa2", ",", 
+      "redincya2", ",", "redincxb1", ",", "redincyb1", ",", "redincxb2", ",", 
+      "redincyb2", ",", "rednewtha1", ",", "rednewtha2", ",", "rednewthb1", 
+      ",", "rednewthb2", ",", "redinsideapath", ",", "redoutsideapath", ",", 
+      "redbetweenpath", ",", "redinsidebpath", ",", "redendpath", ",", 
+      "\[IndentingNewLine]", "focus", ",", "aberration"}], "}"}], ",", 
+    "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"Off", "[", 
+      RowBox[{"Solve", "::", "ifun"}], "]"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"Off", "[", 
+      RowBox[{"Solve", "::", "ratnz"}], "]"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"circeq", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{"x", "-", "c"}], ")"}], "^", "2"}], "+", 
+        RowBox[{"y", "^", "2"}]}], "\[Equal]", 
+       RowBox[{"r", "^", "2"}]}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"curve1", "=", 
+      RowBox[{"Solve", "[", 
+       RowBox[{
+        RowBox[{"circeq", "/.", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"c", "\[Rule]", "ca1"}], ",", 
+           RowBox[{"r", "\[Rule]", "ra1"}]}], "}"}]}], ",", "y"}], "]"}]}], 
+     ";", "\[IndentingNewLine]", 
+     RowBox[{"curve2", "=", 
+      RowBox[{"Solve", "[", 
+       RowBox[{
+        RowBox[{"circeq", "/.", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"c", "\[Rule]", "ca2"}], ",", 
+           RowBox[{"r", "\[Rule]", "ra2"}]}], "}"}]}], ",", "y"}], "]"}]}], 
+     ";", "\[IndentingNewLine]", 
+     RowBox[{"xmeet", "=", 
+      RowBox[{"x", "/.", 
+       RowBox[{
+        RowBox[{"Solve", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{"y", "/.", "curve1"}], ")"}], "\[Equal]", 
+           RowBox[{"(", 
+            RowBox[{"y", "/.", "curve2"}], ")"}]}], ",", "x"}], "]"}], "[", 
+        RowBox[{"[", "1", "]"}], "]"}]}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"ys", "=", 
+      RowBox[{
+       RowBox[{"y", "/.", 
+        RowBox[{"Solve", "[", 
+         RowBox[{
+          RowBox[{"circeq", "/.", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"c", "\[Rule]", "ca1"}], ",", 
+             RowBox[{"r", "\[Rule]", "ra1"}]}], "}"}]}], ",", "y"}], "]"}]}], 
+       "/.", 
+       RowBox[{"x", "\[Rule]", "xmeet"}]}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"ytop", "=", 
+      RowBox[{"Max", "[", "ys", "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"x1", "=", "xstart"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"y1", "=", 
+      RowBox[{"0.9", "ytop"}]}], ";", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{
+      "From", " ", "the", " ", "start", " ", "point", " ", "to", " ", "the", 
+       " ", "first", " ", "lens", " ", "A", " ", "boundary", " ", "blue", " ",
+        "and", " ", "red", " ", "rays", " ", "are", " ", "the", " ", "same"}],
+       "*)"}], "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"incxa1", ",", "incya1"}], "}"}], "=", 
+      RowBox[{"incidencelens", "[", 
+       RowBox[{"x1", ",", "y1", ",", "0", ",", "ra1", ",", "ca1"}], "]"}]}], 
+     ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{"BLUE", " ", "BEAM", " ", "PATH"}], "*)"}], 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{"Inside", " ", "lens", " ", "A"}], "*)"}], 
+     "\[IndentingNewLine]", 
+     RowBox[{"bluenewtha1", "=", 
+      RowBox[{"refth", "[", 
+       RowBox[{
+       "x1", ",", "y1", ",", "0", ",", "ra1", ",", "ca1", ",", "nair", ",", 
+        "nablue"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"blueinsideapath", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Tan", "[", "bluenewtha1", "]"}], 
+        RowBox[{"(", 
+         RowBox[{"x", "-", "incxa1"}], ")"}]}], "+", "incya1"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"blueincxa2", ",", "blueincya2"}], "}"}], "=", 
+      RowBox[{"incidencelens", "[", 
+       RowBox[{
+       "incxa1", ",", "incya1", ",", "bluenewtha1", ",", "ra2", ",", "ca2"}], 
+       "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{"Leaving", " ", "lens", " ", "A"}], "*)"}], 
+     "\[IndentingNewLine]", 
+     RowBox[{"bluenewtha2", "=", 
+      RowBox[{"refth", "[", 
+       RowBox[{
+       "incxa1", ",", "incya1", ",", "bluenewtha1", ",", "ra2", ",", "ca2", 
+        ",", "nablue", ",", "nair"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"blueoutsideapath", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Tan", "[", "bluenewtha2", "]"}], 
+        RowBox[{"(", 
+         RowBox[{"x", "-", "blueincxa2"}], ")"}]}], "+", "blueincya2"}]}], 
+     ";", "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{"Between", " ", "lenses", " ", "A", " ", "and", " ", "B"}], 
+      "*)"}], "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"blueincxb1", ",", "blueincyb1"}], "}"}], "=", 
+      RowBox[{"incidencelens", "[", 
+       RowBox[{
+       "blueincxa2", ",", "blueincya2", ",", "bluenewtha2", ",", "rb1", ",", 
+        "cb1"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"bluebetweenpath", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Tan", "[", "bluenewtha2", "]"}], 
+        RowBox[{"(", 
+         RowBox[{"x", "-", "blueincxa2"}], ")"}]}], "+", "blueincya2"}]}], 
+     ";", "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{"Inside", " ", "lens", " ", "B"}], "*)"}], 
+     "\[IndentingNewLine]", 
+     RowBox[{"bluenewthb1", "=", 
+      RowBox[{"refth", "[", 
+       RowBox[{
+       "blueincxa2", ",", "blueincya2", ",", "bluenewtha2", ",", "rb1", ",", 
+        "cb1", ",", "nair", ",", "nbblue"}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"blueinsidebpath", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Tan", "[", "bluenewthb1", "]"}], 
+        RowBox[{"(", 
+         RowBox[{"x", "-", "blueincxb1"}], ")"}]}], "+", "blueincyb1"}]}], 
+     ";", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"blueincxb2", ",", "blueincyb2"}], "}"}], "=", 
+      RowBox[{"incidencelens", "[", 
+       RowBox[{
+       "blueincxb1", ",", "blueincyb1", ",", "bluenewthb1", ",", "rb2", ",", 
+        "cb2"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{"Leaving", " ", "lens", " ", "B"}], "*)"}], 
+     "\[IndentingNewLine]", 
+     RowBox[{"bluenewthb2", "=", 
+      RowBox[{"refth", "[", 
+       RowBox[{
+       "blueincxb1", ",", "blueincyb1", ",", "bluenewthb1", ",", "rb2", ",", 
+        "cb2", ",", "nbblue", ",", "nair"}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"blueendpath", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Tan", "[", "bluenewthb2", "]"}], 
+        RowBox[{"(", 
+         RowBox[{"x", "-", "blueincxb2"}], ")"}]}], "+", "blueincyb2"}]}], 
+     ";", "\[IndentingNewLine]", 
+     RowBox[{"focus", "=", 
+      RowBox[{"x", "/.", 
+       RowBox[{
+        RowBox[{"Solve", "[", 
+         RowBox[{
+          RowBox[{"blueendpath", "\[Equal]", "0"}], ",", "x"}], "]"}], "[", 
+        RowBox[{"[", "1", "]"}], "]"}]}]}], ";", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{"RED", " ", "BEAM", " ", "PATH"}], "*)"}], 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{"Inside", " ", "lens", " ", "A"}], "*)"}], 
+     "\[IndentingNewLine]", 
+     RowBox[{"rednewtha1", "=", 
+      RowBox[{"refth", "[", 
+       RowBox[{
+       "x1", ",", "y1", ",", "0", ",", "ra1", ",", "ca1", ",", "nair", ",", 
+        "nared"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"redinsideapath", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Tan", "[", "rednewtha1", "]"}], 
+        RowBox[{"(", 
+         RowBox[{"x", "-", "incxa1"}], ")"}]}], "+", "incya1"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"redincxa2", ",", "redincya2"}], "}"}], "=", 
+      RowBox[{"incidencelens", "[", 
+       RowBox[{
+       "incxa1", ",", "incya1", ",", "rednewtha1", ",", "ra2", ",", "ca2"}], 
+       "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{"Leaving", " ", "lens", " ", "A"}], "*)"}], 
+     "\[IndentingNewLine]", 
+     RowBox[{"rednewtha2", "=", 
+      RowBox[{"refth", "[", 
+       RowBox[{
+       "incxa1", ",", "incya1", ",", "rednewtha1", ",", "ra2", ",", "ca2", 
+        ",", "nared", ",", "nair"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"redoutsideapath", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Tan", "[", "rednewtha2", "]"}], 
+        RowBox[{"(", 
+         RowBox[{"x", "-", "redincxa2"}], ")"}]}], "+", "redincya2"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{"Between", " ", "lenses", " ", "A", " ", "and", " ", "B"}], 
+      "*)"}], "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"redincxb1", ",", "redincyb1"}], "}"}], "=", 
+      RowBox[{"incidencelens", "[", 
+       RowBox[{
+       "redincxa2", ",", "redincya2", ",", "rednewtha2", ",", "rb1", ",", 
+        "cb1"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"redbetweenpath", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Tan", "[", "rednewtha2", "]"}], 
+        RowBox[{"(", 
+         RowBox[{"x", "-", "redincxa2"}], ")"}]}], "+", "redincya2"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{"Inside", " ", "lens", " ", "B"}], "*)"}], 
+     "\[IndentingNewLine]", 
+     RowBox[{"rednewthb1", "=", 
+      RowBox[{"refth", "[", 
+       RowBox[{
+       "redincxa2", ",", "redincya2", ",", "rednewtha2", ",", "rb1", ",", 
+        "cb1", ",", "nair", ",", "nbred"}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"redinsidebpath", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Tan", "[", "rednewthb1", "]"}], 
+        RowBox[{"(", 
+         RowBox[{"x", "-", "redincxb1"}], ")"}]}], "+", "redincyb1"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"redincxb2", ",", "redincyb2"}], "}"}], "=", 
+      RowBox[{"incidencelens", "[", 
+       RowBox[{
+       "redincxb1", ",", "redincyb1", ",", "rednewthb1", ",", "rb2", ",", 
+        "cb2"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{"Leaving", " ", "lens", " ", "B"}], "*)"}], 
+     "\[IndentingNewLine]", 
+     RowBox[{"rednewthb2", "=", 
+      RowBox[{"refth", "[", 
+       RowBox[{
+       "redincxb1", ",", "redincyb1", ",", "rednewthb1", ",", "rb2", ",", 
+        "cb2", ",", "nbred", ",", "nair"}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"redendpath", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Tan", "[", "rednewthb2", "]"}], 
+        RowBox[{"(", 
+         RowBox[{"x", "-", "redincxb2"}], ")"}]}], "+", "redincyb2"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"aberration", "=", 
+      RowBox[{"redendpath", "/.", 
+       RowBox[{"x", "\[Rule]", "focus"}]}]}]}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.5729662436364765`*^9, 3.572966252298972*^9}}],
+
+Cell["Example:", "Text",
+ CellChangeTimes->{{3.572967558429679*^9, 3.572967573786557*^9}, {
+  3.572967701218846*^9, 3.572967711241419*^9}, {3.5729680063202963`*^9, 
+  3.572968074843216*^9}, {3.5729710058458595`*^9, 3.5729710080619864`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"chromaberration", "[", 
+  RowBox[{"200", ",", "217.7", ",", 
+   RowBox[{"-", "200"}], ",", "217.7", ",", 
+   RowBox[{"-", "192"}], ",", "217.7", ",", 
+   RowBox[{"-", "3782"}], ",", "3819", ",", "1", ",", "1.51566", ",", 
+   "1.51009", ",", "1.63208", ",", "1.62004", ",", 
+   RowBox[{"-", "50"}], ",", "500"}], "]"}]], "Input",
+ CellChangeTimes->{{3.5729712300346823`*^9, 3.5729712661607485`*^9}, {
+  3.572971297722554*^9, 3.5729713037699003`*^9}}],
+
+Cell["\<\
+
+
+
+
+
+This function returns the most optimally achromatic lens separation as well \
+as the total chromatic aberration for this separation for the Clark doublet, \
+given the radius of curvature of the flint glass\[CloseCurlyQuote] back face.\
+\>", "Text",
+ CellChangeTimes->{{3.572967558429679*^9, 3.572967573786557*^9}, {
+  3.572967701218846*^9, 3.572967711241419*^9}, {3.5729691712879286`*^9, 
+  3.572969186006771*^9}, {3.5729692299612846`*^9, 3.572969324131671*^9}, {
+  3.5729695285033607`*^9, 3.572969580183316*^9}, {3.5729696277730384`*^9, 
+  3.5729696310442257`*^9}, {3.5729714054157133`*^9, 3.572971405735732*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"doubletseparation", "[", "radius_", "]"}], ":=", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+     "distances", ",", "redcabs", ",", "yelcabs", ",", "totalcabs", ",", 
+      "totaldata", ",", "totalfit", ",", "totalsol", ",", "sol", ",", 
+      "bestredcab", ",", "bestyelcab", ",", "besttotalcab"}], "}"}], ",", 
+    "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"Off", "[", 
+      RowBox[{"Solve", "::", "ifun"}], "]"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"distances", "=", 
+      RowBox[{"Table", "[", 
+       RowBox[{"d", ",", 
+        RowBox[{"{", 
+         RowBox[{"d", ",", "0", ",", "20", ",", "1"}], "}"}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"redcabs", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"chromaberration", "[", 
+         RowBox[{"200", ",", "217.7", ",", 
+          RowBox[{"-", "200"}], ",", "217.7", ",", 
+          RowBox[{
+           RowBox[{"-", "200"}], "+", "#"}], ",", "217.7", ",", 
+          RowBox[{
+           RowBox[{"-", "3790"}], "+", "#"}], ",", "radius", ",", "1", ",", 
+          "1.51566", ",", "1.50763", ",", "1.63208", ",", "1.61503", ",", 
+          RowBox[{"-", "50"}], ",", "500"}], "]"}], "&"}], "/@", 
+       "distances"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"yelcabs", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"chromaberration", "[", 
+         RowBox[{"200", ",", "217.7", ",", 
+          RowBox[{"-", "200"}], ",", "217.7", ",", 
+          RowBox[{
+           RowBox[{"-", "200"}], "+", "#"}], ",", "217.7", ",", 
+          RowBox[{
+           RowBox[{"-", "3790"}], "+", "#"}], ",", "radius", ",", "1", ",", 
+          "1.51566", ",", "1.51009", ",", "1.63208", ",", "1.62004", ",", 
+          RowBox[{"-", "50"}], ",", "500"}], "]"}], "&"}], "/@", 
+       "distances"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"totalcabs", "=", 
+      RowBox[{
+       RowBox[{"Abs", "[", "redcabs", "]"}], "+", 
+       RowBox[{"Abs", "[", "yelcabs", "]"}]}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"totaldata", "=", 
+      RowBox[{"Transpose", "[", 
+       RowBox[{"{", 
+        RowBox[{"distances", ",", "totalcabs"}], "}"}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"totalfit", "=", 
+      RowBox[{"Fit", "[", 
+       RowBox[{"totaldata", ",", 
+        RowBox[{"Table", "[", 
+         RowBox[{
+          RowBox[{"x", "^", "i"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"i", ",", "0", ",", "10"}], "}"}]}], "]"}], ",", "x"}], 
+       "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"totalsol", "=", 
+      RowBox[{"Minimize", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"totalfit", ",", 
+          RowBox[{"0", "\[LessEqual]", " ", "x", "\[LessEqual]", "20"}]}], 
+         "}"}], ",", "x"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"sol", "=", 
+      RowBox[{"x", "/.", 
+       RowBox[{"totalsol", "[", 
+        RowBox[{"[", "2", "]"}], "]"}]}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"bestredcab", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"chromaberration", "[", 
+         RowBox[{"200", ",", "217.7", ",", 
+          RowBox[{"-", "200"}], ",", "217.7", ",", 
+          RowBox[{
+           RowBox[{"-", "200"}], "+", "#"}], ",", "217.7", ",", 
+          RowBox[{
+           RowBox[{"-", "3790"}], "+", "#"}], ",", "radius", ",", "1", ",", 
+          "1.51566", ",", "1.50763", ",", "1.63208", ",", "1.61503", ",", 
+          RowBox[{"-", "50"}], ",", "500"}], "]"}], "&"}], "@", "sol"}]}], 
+     ";", "\[IndentingNewLine]", 
+     RowBox[{"bestyelcab", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"chromaberration", "[", 
+         RowBox[{"200", ",", "217.7", ",", 
+          RowBox[{"-", "200"}], ",", "217.7", ",", 
+          RowBox[{
+           RowBox[{"-", "200"}], "+", "#"}], ",", "217.7", ",", 
+          RowBox[{
+           RowBox[{"-", "3790"}], "+", "#"}], ",", "radius", ",", "1", ",", 
+          "1.51566", ",", "1.51009", ",", "1.63208", ",", "1.62004", ",", 
+          RowBox[{"-", "50"}], ",", "500"}], "]"}], "&"}], "@", "sol"}]}], 
+     ";", "\[IndentingNewLine]", 
+     RowBox[{"besttotalcab", "=", 
+      RowBox[{
+       RowBox[{"Abs", "[", "bestredcab", "]"}], "+", 
+       RowBox[{"Abs", "[", "bestyelcab", "]"}]}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"{", 
+      RowBox[{"sol", ",", "besttotalcab"}], "}"}]}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.572966276802374*^9, 3.5729662778294325`*^9}, {
+  3.572969348723078*^9, 3.572969349061097*^9}}],
+
+Cell["Example:", "Text",
+ CellChangeTimes->{{3.572967558429679*^9, 3.572967573786557*^9}, {
+  3.572967701218846*^9, 3.572967711241419*^9}, {3.5729680063202963`*^9, 
+  3.572968074843216*^9}, {3.5729710058458595`*^9, 3.5729710080619864`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"doubletseparation", "[", "4123", "]"}]], "Input",
+ CellChangeTimes->{{3.5729712300346823`*^9, 3.5729712661607485`*^9}, {
+  3.5729713309194527`*^9, 3.572971338757901*^9}}],
+
+Cell["\<\
+
+
+
+
+
+This function returns the most optimally achromatic lens separation as well \
+as the total chromatic aberration for this separation for the Clark doublet, \
+given the thickness of the flint glass and the radius of curvature of its \
+back face.\
+\>", "Text",
+ CellChangeTimes->{{3.572967558429679*^9, 3.572967573786557*^9}, {
+  3.572967701218846*^9, 3.572967711241419*^9}, {3.5729691712879286`*^9, 
+  3.572969186006771*^9}, {3.5729692299612846`*^9, 3.572969324131671*^9}, {
+  3.5729695285033607`*^9, 3.572969618960534*^9}, {3.5729714033655963`*^9, 
+  3.572971403688615*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"newdoubletseparation", "[", 
+   RowBox[{"thickness_", ",", "radius_"}], "]"}], ":=", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+     "distances", ",", "redcabs", ",", "yelcabs", ",", "totalcabs", ",", 
+      "totaldata", ",", "totalfit", ",", "totalsol", ",", "sol", ",", 
+      "bestredcab", ",", "bestyelcab", ",", "besttotalcab"}], "}"}], ",", 
+    "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"Off", "[", 
+      RowBox[{"Solve", "::", "ifun"}], "]"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"distances", "=", 
+      RowBox[{"Table", "[", 
+       RowBox[{"d", ",", 
+        RowBox[{"{", 
+         RowBox[{"d", ",", "0", ",", "20", ",", "1"}], "}"}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"redcabs", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"chromaberration", "[", 
+         RowBox[{"200", ",", "217.7", ",", 
+          RowBox[{"-", "200"}], ",", "217.7", ",", 
+          RowBox[{
+           RowBox[{"-", "200"}], "+", "#"}], ",", "217.7", ",", 
+          RowBox[{"17.7", "+", "#", "+", "thickness", "-", "radius"}], ",", 
+          "radius", ",", "1", ",", "1.51566", ",", "1.50763", ",", "1.63208", 
+          ",", "1.61503", ",", 
+          RowBox[{"-", "50"}], ",", "500"}], "]"}], "&"}], "/@", 
+       "distances"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"yelcabs", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"chromaberration", "[", 
+         RowBox[{"200", ",", "217.7", ",", 
+          RowBox[{"-", "200"}], ",", "217.7", ",", 
+          RowBox[{
+           RowBox[{"-", "200"}], "+", "#"}], ",", "217.7", ",", 
+          RowBox[{"17.7", "+", "#", "+", "thickness", "-", "radius"}], ",", 
+          "radius", ",", "1", ",", "1.51566", ",", "1.51009", ",", "1.63208", 
+          ",", "1.62004", ",", 
+          RowBox[{"-", "50"}], ",", "500"}], "]"}], "&"}], "/@", 
+       "distances"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"totalcabs", "=", 
+      RowBox[{
+       RowBox[{"Abs", "[", "redcabs", "]"}], "+", 
+       RowBox[{"Abs", "[", "yelcabs", "]"}]}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"totaldata", "=", 
+      RowBox[{"Transpose", "[", 
+       RowBox[{"{", 
+        RowBox[{"distances", ",", "totalcabs"}], "}"}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"totalfit", "=", 
+      RowBox[{"Fit", "[", 
+       RowBox[{"totaldata", ",", 
+        RowBox[{"Table", "[", 
+         RowBox[{
+          RowBox[{"x", "^", "i"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"i", ",", "0", ",", "10"}], "}"}]}], "]"}], ",", "x"}], 
+       "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"totalsol", "=", 
+      RowBox[{"Minimize", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"totalfit", ",", 
+          RowBox[{"0", "\[LessEqual]", " ", "x", "\[LessEqual]", "20"}]}], 
+         "}"}], ",", "x"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"sol", "=", 
+      RowBox[{"x", "/.", 
+       RowBox[{"totalsol", "[", 
+        RowBox[{"[", "2", "]"}], "]"}]}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"bestredcab", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"chromaberration", "[", 
+         RowBox[{"200", ",", "217.7", ",", 
+          RowBox[{"-", "200"}], ",", "217.7", ",", 
+          RowBox[{
+           RowBox[{"-", "200"}], "+", "#"}], ",", "217.7", ",", 
+          RowBox[{"17.7", "+", "#", "+", "thickness", "-", "radius"}], ",", 
+          "radius", ",", "1", ",", "1.51566", ",", "1.50763", ",", "1.63208", 
+          ",", "1.61503", ",", 
+          RowBox[{"-", "50"}], ",", "500"}], "]"}], "&"}], "@", "sol"}]}], 
+     ";", "\[IndentingNewLine]", 
+     RowBox[{"bestyelcab", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"chromaberration", "[", 
+         RowBox[{"200", ",", "217.7", ",", 
+          RowBox[{"-", "200"}], ",", "217.7", ",", 
+          RowBox[{
+           RowBox[{"-", "200"}], "+", "#"}], ",", "217.7", ",", 
+          RowBox[{"17.7", "+", "#", "+", "thickness", "-", "radius"}], ",", 
+          "radius", ",", "1", ",", "1.51566", ",", "1.51009", ",", "1.63208", 
+          ",", "1.62004", ",", 
+          RowBox[{"-", "50"}], ",", "500"}], "]"}], "&"}], "@", "sol"}]}], 
+     ";", "\[IndentingNewLine]", 
+     RowBox[{"besttotalcab", "=", 
+      RowBox[{
+       RowBox[{"Abs", "[", "bestredcab", "]"}], "+", 
+       RowBox[{"Abs", "[", "bestyelcab", "]"}]}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"{", 
+      RowBox[{"sol", ",", "besttotalcab"}], "}"}]}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.5729662886510515`*^9, 3.5729662895411024`*^9}, {
+  3.572969394288684*^9, 3.5729693946117024`*^9}, {3.572971348668468*^9, 
+  3.5729713502665596`*^9}}],
+
+Cell["Example:", "Text",
+ CellChangeTimes->{{3.572967558429679*^9, 3.572967573786557*^9}, {
+  3.572967701218846*^9, 3.572967711241419*^9}, {3.5729680063202963`*^9, 
+  3.572968074843216*^9}, {3.5729710058458595`*^9, 3.5729710080619864`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"newdoubletseparation", "[", 
+  RowBox[{"10", ",", "4123"}], "]"}]], "Input",
+ CellChangeTimes->{{3.5729712300346823`*^9, 3.5729712661607485`*^9}, {
+  3.5729713309194527`*^9, 3.5729713676455536`*^9}}]
+}, Open  ]]
+},
+WindowSize->{1358, 641},
+WindowMargins->{{Automatic, 0}, {Automatic, 0}},
+Magnification->1.2000000476837158`,
+FrontEndVersion->"8.0 for Microsoft Windows (64-bit) (October 6, 2011)",
+StyleDefinitions->FrontEnd`FileName[{"Report"}, "StandardReport.nb", 
+  CharacterEncoding -> "WindowsANSI"]
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[579, 22, 305, 6, 162, "Title"],
+Cell[887, 30, 186, 6, 36, "Subtitle"],
+Cell[1076, 38, 133, 1, 34, "Subsubtitle"],
+Cell[1212, 41, 437, 8, 32, "Text"],
+Cell[1652, 51, 3446, 96, 245, "Input"],
+Cell[5101, 149, 240, 3, 32, "Text"],
+Cell[5344, 154, 290, 6, 44, "Input"],
+Cell[5637, 162, 588, 14, 150, "Text"],
+Cell[6228, 178, 4610, 112, 365, "Input"],
+Cell[10841, 292, 240, 3, 32, "Text"],
+Cell[11084, 297, 305, 7, 44, "Input"],
+Cell[11392, 306, 312, 11, 131, "Text"],
+Cell[11707, 319, 19655, 481, 985, "Input"],
+Cell[31365, 802, 189, 3, 32, "Text"],
+Cell[31557, 807, 1197, 30, 165, "Input"],
+Cell[32757, 839, 909, 19, 170, "Text"],
+Cell[33669, 860, 4447, 109, 265, "Input"],
+Cell[38119, 971, 191, 3, 32, "Text"],
+Cell[38313, 976, 1121, 27, 85, "Input"],
+Cell[39437, 1005, 858, 18, 170, "Text"],
+Cell[40298, 1025, 9471, 235, 805, "Input"],
+Cell[49772, 1262, 240, 3, 32, "Text"],
+Cell[50015, 1267, 278, 5, 44, "Input"],
+Cell[50296, 1274, 458, 12, 131, "Text"],
+Cell[50757, 1288, 5529, 143, 545, "Input"],
+Cell[56289, 1433, 240, 3, 32, "Text"],
+Cell[56532, 1438, 291, 6, 44, "Input"],
+Cell[56826, 1446, 1330, 24, 248, "Text"],
+Cell[58159, 1472, 17936, 436, 1645, "Input"],
+Cell[76098, 1910, 240, 3, 32, "Text"],
+Cell[76341, 1915, 444, 8, 44, "Input"],
+Cell[76788, 1925, 515, 13, 131, "Text"],
+Cell[77306, 1940, 12024, 301, 1225, "Input"],
+Cell[89333, 2243, 240, 3, 32, "Text"],
+Cell[89576, 2248, 473, 9, 44, "Input"],
+Cell[90052, 2259, 629, 14, 131, "Text"],
+Cell[90684, 2275, 4535, 109, 305, "Input"],
+Cell[95222, 2386, 240, 3, 32, "Text"],
+Cell[95465, 2391, 194, 3, 44, "Input"],
+Cell[95662, 2396, 588, 15, 150, "Text"],
+Cell[96253, 2413, 4694, 111, 425, "Input"],
+Cell[100950, 2526, 240, 3, 32, "Text"],
+Cell[101193, 2531, 223, 4, 44, "Input"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
