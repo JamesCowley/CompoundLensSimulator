@@ -1,7 +1,7 @@
 # Simulating compound lenses in Mathematica
 
 ### Background
-Created in year 2 of my MSci Theoretical Physics course at UCL (date ~ February 2013). The project's aim was to simulate compound lenses of different shapes and composition to minimise various kinds of optical aberration.
+Created in year 2 of undergrad physics. The project's aim was to simulate compound lenses of different shapes and composition to minimise various kinds of optical aberration.
 
 ### Breakdown
 1. Model individual light rays passing through a boundary between media of different refractive indices.
@@ -15,4 +15,4 @@ Notebook (`.nb`) files can be opened in Wolfram [*Mathematica*](https://www.wolf
 
 The file `Functions.nb` contains each important function of the project and an example graphical output.
 
-The file `Aberration_Plots.nb` just contains some plots from the final [report](http://www.ucl.ac.uk/~zcaph29/mathematica/Year2_Mathematica_Project_Report.pdf).
+The file `Aberration_Plots.nb` just contains some plots from the final report.
