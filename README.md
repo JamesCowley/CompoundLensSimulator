@@ -10,8 +10,8 @@ A computer model is used to simulate the properties of variously shaped convergi
 4. Add mutliple lenses to the system.
 5. Vary size, shape and composition of lenses to try and achieve magnification with minimal aberration.
 
-### How to view it
-Notebook (`.nb`) files can be opened in Wolfram [*Mathematica*](https://www.wolfram.com/mathematica).
+### Usage
+Notebook (`.nb`) files can be opened and evaluated in Wolfram [*Mathematica*](https://www.wolfram.com/mathematica).
 
 The file `Functions.nb` contains each important function of the project and an example graphical output.
 
