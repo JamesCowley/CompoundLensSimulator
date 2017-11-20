@@ -13,6 +13,6 @@ A computer model is used to simulate the properties of variously shaped convergi
 ### Usage
 Notebook (`.nb`) files can be opened and evaluated in Wolfram [*Mathematica*](https://www.wolfram.com/mathematica).
 
-The file `Functions.nb` contains each important function of the project and an example graphical output.
+The file [Functions.nb](Functions.nb) contains each important function of the project and an example graphical output.
 
-The file `Aberration_Plots.nb` just contains some plots from the final report.
+The file [Aberration_Plots.nb](Aberration_Plots.nb) just contains some plots from the final report.
